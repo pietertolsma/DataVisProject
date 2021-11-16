@@ -1,0 +1,8 @@
+body {
+    font-family: sans-serif;
+}
+
+#mainWindow {
+    width: 100%;
+    height: 1000px;
+}
