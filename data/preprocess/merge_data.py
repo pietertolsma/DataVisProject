@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 gdp_file = "../raw_data/gdp.csv"
 health_spendings_file = "../raw_data/health.csv"
@@ -64,8 +65,10 @@ life_df = process_life(life_df)
 population_df = process_population(population_df)
 
 
-total_df = pd.merge(gdp_df, health_df, on=["Country Code", "Year"])
-total_df = pd.merge(total_df, life_df, on=["Country Code", "Year"])
-total_df = pd.merge(total_df, population_df, on=["Country Code", "Year"])
+total_df = pd.merge(gdp_df, health_df, how="outer", on=["Country Code", "Year"])
+total_df = pd.merge(total_df, life_df, how="outer", on=["Country Code", "Year"])
+total_df = pd.merge(total_df, population_df, how="outer", on=["Country Code", "Year"])
 
-total_df.to_csv("../merged_data.csv")
+total_df = total_df.groupby(['Country Name']).apply(lambda x: x[["Year", "Life Expectancy", "Population", "GDP"]].to_dict("records")).reset_index().rename(columns={0:"Data"})
+
+total_df.to_json("../merged_data.json", orient="records")
