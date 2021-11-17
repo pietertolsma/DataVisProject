@@ -1,14 +1,30 @@
-let current_year = 2005;
-
+let current_year = 2010;
+let country_data = {};
 
 const svg = d3.select("#mainWindow");
 
+let tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+
 function handleMouseOver(d, i) {
-    d3.select(this).attr("fill-opacity", 1);
+    d3.select(this).attr("fill-opacity", 1)
+        .attr("test", (item) => {
+            console.log(d)
+            let data = country_data[item.properties.name][current_year];
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            tooltip.html(item.properties.name + "<br />" + data["Life Expectancy"])
+                .style("left", (d.clientX) + "px")
+                .style("top", (d.clientY) + "px");
+            return "";
+        });
 }
 
 function handleMouseOut(d, i) {
     d3.select(this).attr("fill-opacity", 0.6);
+    tooltip.transition()
+                .duration(200)
+                .style("opacity", 0);
 }
 
 function zoomed({transform}) {
@@ -23,8 +39,6 @@ let WIDTH = svg.style("width").replace("px", "");
 let HEIGHT = WIDTH  * 2 / 5;
 svg.style("width", WIDTH + "px").style("height", HEIGHT + "px");
 svg.attr("viewBox", [0, 0, WIDTH, HEIGHT]);
-
-let country_data = {};
 
 d3.json("../../data/merged_data.json").then(function(data) {
     for (let i = 0; i < data.length; i++) {
