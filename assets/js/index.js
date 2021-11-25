@@ -4,7 +4,7 @@ $(document).ready(() => {
         HEIGHT = $(window).height();
 
     let map = europeMap();
-    let bar = horizontalBar();
+    let bar = horizontalBar(undefined, size={"width": WIDTH / 2 , "height" : 600});
 
     d3.select("#firstMap").call(map)
         .style("width", WIDTH / 2 + "px")

@@ -2,7 +2,7 @@
 // http://bl.ocks.org/NelsonMinar/11524926
 // https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
 
-function horizontalBar(input_data) {
+function horizontalBar(input_data = undefined, size = undefined) {
 
     function generate_dummy_data(from, to) {
         let data = []
@@ -16,17 +16,19 @@ function horizontalBar(input_data) {
     }
 
     // Default width and height if not defined using .style("width", width) etc
-    let width = 720,
-        height = 480;
+    let width = typeof size === 'undefined' ? 720 : size.width;
+    let height = typeof size === 'undefined' ? 480 : size.height;
 
     let margin = {
         top: 0,
-        right: 25,
+        right: 100,
         bottom: 0,
         left: 120
     }
 
-    let data = (input_data == undefined ? generate_dummy_data(0, 1000) : input_data);
+    console.log(height);
+
+    let data = (typeof input_data === 'undefined' ? generate_dummy_data(0, 1000) : input_data);
     data = data.sort((a, b) => d3.ascending(a.value, b.value));
 
     function handleMouseOver(d, i) {

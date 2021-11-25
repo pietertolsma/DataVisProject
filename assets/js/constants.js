@@ -4,5 +4,7 @@ let EU_COUNTRIES = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Republic of Cy
 'Spain', 'Sweden', 'United Kingdom'];
 
 let COLORS = {
-    "EU_BLUE" : "#003399"
+    "EU_BLUE" : "#003399",
+    "DARK_GRAY" : "#343a40",
+    "OFF_WHITE" : "#f8f9fa"
 }
