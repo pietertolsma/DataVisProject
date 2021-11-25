@@ -1,14 +1,22 @@
-let EU_COUNTRIES = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Republic of Cyprus', 'Czech Republic',
-'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greecy', 'Hungary', 'Ireland', 'Italy',
-'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia',
-'Spain', 'Sweden', 'United Kingdom']
+
 
 // http://bl.ocks.org/NelsonMinar/11524926
 
-function europeMap() {
+function europeMap(input_data) {
+
+    function generate_dummy_data(from, to) {
+        let data = {}
+        for (let i = 0; i < EU_COUNTRIES.length; i++) {
+            data[EU_COUNTRIES[i]] = Math.random() * (to - from) - from;
+        }
+        return data;
+    }
+
+    // Default width and height if not defined using .style("width", width) etc
     let width = 720,
         height = 480;
 
+    let data = (input_data == undefined ? generate_dummy_data(0, 1000000) : input_data);
 
     let tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
@@ -38,16 +46,9 @@ function europeMap() {
 
 
     function my(selection) {
-        d3.json("../../data/merged_data.json").then(function(data) {
-            for (let i = 0; i < data.length; i++) {
-                year_data = {}
-                for (let k = 0; k < data[i]['Data'].length; k++) {
-                    year_data[data[i]['Data'][k]['Year']] = data[i]['Data'][k];
-                } 
-                country_data[data[i]["Country Name"]] = year_data;
-            }
+        new Promise((resolve, reject) => {
+            resolve(d3.json('./../../data/raw_data/europe.geojson'));
         })
-        .then(d3.json('./../../data/raw_data/europe.geojson')
         .then((bb) => {
             let projection = d3.geoEqualEarth();
             projection.fitSize([width, height], bb);
@@ -62,23 +63,24 @@ function europeMap() {
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut)
                 .attr("fill", (d, i) => {
-                    if ( EU_COUNTRIES.includes(d.properties.NAME) ) {
-                        return "#003399";
+                    if ( ! EU_COUNTRIES.includes(d.properties.NAME) ) {
+                        return "#fff";
+                        // return "#003399";
                     }
-                    return "#ffffff";
-                    // if ( country_data[d.properties.NAME] == undefined || country_data[d.properties.NAME][current_year] == undefined) {
-                    //     //console.log(d.properties.name + ":" + country_data[d.properties.name]);
-                    //     return "#000";
-                    // }
+                    if ( data[d.properties.NAME] == undefined || data[d.properties.NAME] == undefined) {
+                        //console.log(d.properties.name + ":" + data[d.properties.name]);
+                        return "#fff";
+                    }
                     let color = d3.interpolateHsl("red", "green")
-                    let life_exp = country_data[d.properties.name][current_year]['Life Expectancy'];
-                    return color((life_exp - 50) / 35);
+                    let point = data[d.properties.NAME];
+                    return color(point / 1000000);
                     //return color(country_data[d.properties.name]);
                 })
                 .attr('fill-opacity', 1)
                 .attr('stroke', '#000')
                 .attr('stroke-opacity', 0);
-        }));    
+            selection.select("g").attr("transform", 'scale(1.5)');
+        });    
     }
 
     my.width = function(value) {

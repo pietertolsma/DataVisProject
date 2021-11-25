@@ -1,4 +1,17 @@
-let map = europeMap();
-d3.select("#mainWindow").call(map)
-    .style("width", "1000px")
-    .style("height", "600px");
+$(document).ready(() => {
+
+    let WIDTH = $(window).width(),
+        HEIGHT = $(window).height();
+
+    let map = europeMap();
+    let bar = horizontalBar();
+
+    d3.select("#firstMap").call(map)
+        .style("width", WIDTH / 2 + "px")
+        .style("height", HEIGHT + "px");
+
+    d3.select("#firstBarChart").call(bar)
+        .style("width", WIDTH / 2 + "px")
+        .style("height", HEIGHT + "px");
+
+});

@@ -13,3 +13,22 @@ body {
     pointer-events: none;	
     font-size: 1em;	
 }
+
+.pageOneDrawing {
+    display: flex;
+    flex-direction: row;
+}
+
+.axis {
+    font-size: 13px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    display: none;
+}
+
+.label {
+    font-size: 13px;
+}
