@@ -1,38 +1,139 @@
+@import "bourbon";
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 body {
     font-family: sans-serif;
-    background-color: #f8f9fa;
+    margin: 0;
 }
+
+.sections {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pageDrawing {
+    cursor: pointer;
+    width: 100%;
+    height: 100vh;
+}
+
+.pageOneDrawing {
+    display: flex;
+    flex-direction: row;
+}
+
+.One {
+    background: rgba(245, 175, 145, 0.24);
+}
+
+.Two {
+    background: rgba(59, 59, 225, 0.24);
+}
+
+.Three {
+    background-color: rgba(59, 223, 51, 0.13);
+}
+
+
+/* .Four {
+    min-height: 100vh;
+    width: 100%;
+    background-color: rgba(59, 223, 51, 0.13);
+    background-image: url(https://media2.giphy.com/media/ygzdQq98HgcLBCacep/giphy.gif?cid=ecf05e47nrk5bpffatbfccz270t1gnbx1jyu2lqc041n3uwt&rid=giphy.gif&ct=g);
+    background-position: center;
+    background-size: 110%;
+    overflow: hidden;
+} */
 
 .title {
     font-size: 4em;
     text-align: center;
     color: #343a40;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+    padding: 30px;
 }
 
 .paragraph {
     color: #343a40;
     font-size: 1.3em;
     text-align: center;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
     padding: 0px 20px;
     max-width: 900px;
     margin: 0 auto 30px auto;
 }
 
 .tooltip {
-    position: absolute;			
-    text-align: center;			
-    background: white;	
-    border: 0px;		
+    position: absolute;
+    text-align: center;
+    background: white;
+    border: 0px;
     border: 3px solid black;
     padding: 15px;
-    border-radius: 5px;			
-    pointer-events: none;	
-    font-size: 1em;	
+    border-radius: 5px;
+    pointer-events: none;
+    font-size: 1em;
 }
 
-.pageOneDrawing {
-    display: flex;
-    flex-direction: row;
+#section05 a {
+    padding-top: 70px;
+}
+
+#section05 a span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-animation: sdb05 1.5s infinite;
+    animation: sdb05 1.5s infinite;
+    box-sizing: border-box;
+}
+
+@-webkit-keyframes sdb05 {
+    0% {
+        -webkit-transform: rotate(-45deg) translate(0, 0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: rotate(-45deg) translate(-20px, 20px);
+        opacity: 0;
+    }
+}
+
+@keyframes sdb05 {
+    0% {
+        transform: rotate(-45deg) translate(0, 0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(-45deg) translate(-20px, 20px);
+        opacity: 0;
+    }
 }
 
 .axis {
