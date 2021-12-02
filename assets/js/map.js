@@ -34,7 +34,7 @@ function europeMap(input_data, width=720, height=480) {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", 1);
-                tooltip.html(name + "<br />€" + Math.round(data[name])+"M")
+                tooltip.html(name + "<br />€" + numberWithCommas(Math.round(data[name]))+"M")
                     .style("left", (d.clientX) + "px")
                     .style("top", (d.clientY + document.documentElement.scrollTop) + "px");
                 return "";

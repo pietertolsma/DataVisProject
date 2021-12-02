@@ -9,7 +9,7 @@ async function readJSON() {
             console.log(data[0]);
             for (let i = 0; i < data.length; i++) {
                 GDP[String(data[i].Country)] = data[i].GDP;
-                countryNetContribution = parseInt(data[i]["TOTAL national contribution"]) - parseInt(data[i]["TOTAL EXPENDITURE"]) ;
+                countryNetContribution = parseInt(data[i]["TOTAL national contribution"]) - parseInt(data[i]["TOTAL EXPENDITURE"]) + parseInt(data[i]["ADMINISTRATION"]) / data[i]['POPULATION'];
                 netContribution[data[i].Country] = isNaN(countryNetContribution) ? 0 : countryNetContribution;
             }
             resolve();
