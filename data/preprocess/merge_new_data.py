@@ -136,6 +136,8 @@ def process_population(df):
     df["Country"] = df["Country"].replace({"Germany (until 1990 former territory of the FRG)": "Germany",
                                            "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo"})
 
+    df["Population"] = df["Population"].str.replace(' ', '')
+
     df.reset_index(inplace=True, drop=True)
 
     return df
