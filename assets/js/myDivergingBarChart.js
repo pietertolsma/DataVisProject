@@ -28,9 +28,9 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
     let margin = {
         top: 0,
-        right: 30,
+        right: 90,
         bottom: 0,
-        left: 30
+        left: 90
     }
 
     function my(selection) {
@@ -86,20 +86,23 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
             .attr("height", yPos.bandwidth())
             .attr("x", (d) => {
                 if (input_data[d.key] >= 0) {
-                    return (width - margin.left - margin.right)/2;
+                    return (width - margin.left - margin.right) / 2;
                 }
                 
-                return xNeg(d.value);
+                return margin.left + xNeg(d.value);
             })
-            .attr("width", (d) => {
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .attr("width", 0)
+                .transition()
+                .duration(750)
+                .attr("width", (d) => {
                 if (input_data[d.key] >= 0) {
                     return xPos(d.value)
                 }
-                console.log(d);
-                return (width - margin.left - margin.right)/2 - xNeg(d.value);
-            })
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut);
+                console.log(d + xNeg(d.value));
+                return (width / 2 - margin.left - margin.right) - xNeg(d.value);
+                });
 
         bars.append("text")
             .attr("class", "divergeChartLabel")
@@ -114,10 +117,14 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
                     return xPos(d.value) + (width - margin.left - margin.right)/2 + 3;
                 }
                 
-                return xNeg(d.value) + 3;
+                return margin.left + xNeg(d.value) - 45;
             })
             .style("fill", "black")
-            .text((d) => Math.round(d.value) + " M");
+            .text((d) => numberWithCommas(Math.round(d.value)) + "M")
+            .attr("opacity", 0)
+            .transition()
+            .duration(800)
+            .attr("opacity", 1);
         
     }
 

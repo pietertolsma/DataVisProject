@@ -34,7 +34,7 @@ function europeMap(input_data, width=720, height=480) {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", 1);
-                tooltip.html(name + "<br />€" + numberWithCommas(Math.round(data[name]))+"M")
+                tooltip.html(name + "<br /><br />Net. Result: €" + numberWithCommas(Math.round(data[name]))+"M")
                     .style("left", (d.clientX) + "px")
                     .style("top", (d.clientY + document.documentElement.scrollTop) + "px");
                 return "";
@@ -66,9 +66,15 @@ function europeMap(input_data, width=720, height=480) {
                 .attr('d', geoGenerator)
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut)
+                .attr('fill-opacity', 1)
+                .attr('stroke', '#000')
+                .attr('stroke-opacity', 0.09)
+                .attr("fill", "white")
+                .transition()
+                .duration(1150)
                 .attr("fill", (d, i) => {
                     if ( ! EU_COUNTRIES.includes(d.properties.NAME) ) {
-                        return "#fff";
+                        return "#f8f9fa";
                         // return "#003399";
                     }
                     if ( data[d.properties.NAME] == undefined || data[d.properties.NAME] == undefined) {
@@ -82,10 +88,7 @@ function europeMap(input_data, width=720, height=480) {
                     let point = data[d.properties.NAME];
                     return color((point - min) / (max - min));
                     //return color(country_data[d.properties.name]);
-                })
-                .attr('fill-opacity', 1)
-                .attr('stroke', '#000')
-                .attr('stroke-opacity', 0.06);
+                });
             selection.select("g").attr("transform", 'scale(1.5), translate(-80, 0)');
         });    
     }
