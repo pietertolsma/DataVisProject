@@ -86,7 +86,7 @@ function europeMap(input_data, width=720, height=480) {
                 .attr('fill-opacity', 1)
                 .attr('stroke', '#000')
                 .attr('stroke-opacity', 0.06);
-            selection.select("g").attr("transform", 'scale(1.5)');
+            selection.select("g").attr("transform", 'scale(1.5), translate(-80, 0)');
         });    
     }
 

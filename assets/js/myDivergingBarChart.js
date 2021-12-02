@@ -12,7 +12,7 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
     let data = dictToPairObject(input_data);
     data = data.sort((a, b) => d3.ascending(a.value, b.value));
-    positiveCountries = data.filter((obj) => obj.value >= 0);
+    positiveCountries = data.filter((obj) => obj.value >= 0 && obj.key);
     negativeCountries = data.filter((obj) => obj.value < 0);
     mean = Object.values(input_data).reduce((acc, curr) => acc + curr) / Object.values(input_data).length;
     console.log(mean);
@@ -28,20 +28,20 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
     let margin = {
         top: 0,
-        right: 0,
+        right: 30,
         bottom: 0,
-        left: 0
+        left: 30
     }
 
     function my(selection) {
         let svg = selection.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xPos = d3.scaleLinear()
-                .range([width/2, width - margin.left - margin.right])
+                .range([0, width / 2 - margin.left - margin.right])
                 .domain([0, d3.max(data, (d) => d.value)]);
         
         let xNeg = d3.scaleLinear()
-                .range([margin.left, width/2])
+                .range([0, width / 2 - margin.left - margin.right])
                 .domain([d3.min(data, (d) => d.value), 0]);
         
         let yPos = d3.scaleBand()
@@ -60,7 +60,7 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
 
         let gy = svg.append("g")
-            .attr("transform", `translate(${width/2},0)`)
+            .attr("transform", `translate(${(width - margin.left - margin.right)/2},0)`)
             .attr("class", "y axis")
         
         let gyPos = gy.append("g")
@@ -76,23 +76,48 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
             .append("g");
 
         bars.append("rect")
-            .style("fill", COLORS.EU_BLUE)
+            .attr("fill", (d) => input_data[d.key] >= 0 ? "#2ecc71" : "red")
             .attr("y", (d) => {
                 if (input_data[d.key] >= 0) {
                     return yPos(d.key);
                 }
-                return (height * negativeCountries.length / data.length) - margin.top - margin.bottom + yNeg(d.key);
+                return (height * positiveCountries.length / data.length) - margin.top - margin.bottom + yNeg(d.key);
             })
             .attr("height", yPos.bandwidth())
-            .attr("x", 0)
+            .attr("x", (d) => {
+                if (input_data[d.key] >= 0) {
+                    return (width - margin.left - margin.right)/2;
+                }
+                
+                return xNeg(d.value);
+            })
             .attr("width", (d) => {
                 if (input_data[d.key] >= 0) {
                     return xPos(d.value)
                 }
-                return xNeg(d.value)
+                console.log(d);
+                return (width - margin.left - margin.right)/2 - xNeg(d.value);
             })
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut);
+
+        bars.append("text")
+            .attr("class", "divergeChartLabel")
+            .attr("y", (d) => {
+                if (input_data[d.key] >= 0) {
+                    return yPos(d.key) + yPos.bandwidth() - 3;
+                }
+                return (height * positiveCountries.length / data.length) - margin.top - margin.bottom + yNeg(d.key) + yNeg.bandwidth() - 3;
+            })
+            .attr("x", (d) => {
+                if (input_data[d.key] >= 0) {
+                    return xPos(d.value) + (width - margin.left - margin.right)/2 + 3;
+                }
+                
+                return xNeg(d.value) + 3;
+            })
+            .style("fill", "black")
+            .text((d) => Math.round(d.value) + " M");
         
     }
 

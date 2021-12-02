@@ -12,6 +12,7 @@ async function readJSON() {
                 countryNetContribution = parseInt(data[i]["TOTAL own resources"]) - parseInt(data[i]["TOTAL EXPENDITURE"]) + parseInt(data[i]["ADMINISTRATION"]);
                 netContribution[data[i].Country] = isNaN(countryNetContribution) ? 0 : countryNetContribution;
             }
+            delete netContribution["EU"];
             resolve();
         })
     });
