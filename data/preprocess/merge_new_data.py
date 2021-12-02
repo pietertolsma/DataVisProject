@@ -21,11 +21,16 @@ population_df = pd.read_csv(population_path, error_bad_lines=False)
 def process_income(df):
     df = df[df["TIME"] == 2019]
     df = df[df["AGE"] == "Total"]
-
     df = df[~df.UNIT.str.contains("National currency")]
     df = df[~df.UNIT.str.contains("PPS")]
+
+    totalEU_df = df[df["GEO"] == "European Union - 28 countries (2013-2020)"]
+
     df = df[~df.GEO.str.contains("European Union")]
     df = df[~df.GEO.str.contains("Euro area")]
+
+    df = df.append(totalEU_df)
+
     df["Value"] = df["Value"].str.replace(',', '')
     df["Value"] = pd.to_numeric(df["Value"], errors='coerce')
 
@@ -34,7 +39,8 @@ def process_income(df):
     df = df.rename(columns={"GEO": "Country", "Value": "avg_income"})
 
     df["Country"] = df["Country"].replace({"Germany (until 1990 former territory of the FRG)": "Germany",
-                                           "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo"})
+                                           "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo",
+                                           "European Union - 28 countries (2013-2020)": "EU"})
     return df
 
 
@@ -52,6 +58,7 @@ def process_minwage(df):
                                            "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo"})
 
     df = df[~df.Country.str.contains("United States")]
+    df.loc[df.shape[0]] = ["EU",""]
 
     return df
 
@@ -75,7 +82,8 @@ def process_EU_support(df):
 
     new_df = df[["Country", "SMART AND INCLUSIVE GROWTH", "SUSTAINABLE GROWTH: NATURAL RESOURCES",
                  "SECURITY AND CITIZENSHIP", "GLOBAL EUROPE", "ADMINISTRATION", "SPECIAL INSTRUMENTS",
-                 "TOTAL EXPENDITURE", "TOTAL national contribution"]].copy()
+                 "VAT-based own resource", "GNI-based own resource", "Traditional own resources (TOR) (80%)",
+                 "TOTAL own resources", "Other revenue***"]].copy()
 
     cols = new_df.columns
     new_df[cols] = new_df[cols].apply(lambda x: x.str.replace('.',''))
@@ -90,15 +98,18 @@ def process_GDP(df):
     df = df[df["UNIT"] == "Current prices, million euro"]
     df["Value"] = df["Value"].str.replace(',', '')
     df["Value"] = pd.to_numeric(df["Value"], errors='coerce')
+    totalEU_df = df[df["GEO"] == "European Union - 28 countries (2013-2020)"]
     df = df[~df.GEO.str.contains("European Union")]
     df = df[~df.GEO.str.contains("Euro area")]
+    df = df.append(totalEU_df)
 
     df.reset_index(inplace=True, drop=True)
     df = df.drop(["Flag and Footnotes", "TIME", "UNIT", "NA_ITEM"], axis=1)
     df = df.rename(columns={"GEO": "Country", "Value": "GDP"})
 
     df["Country"] = df["Country"].replace({"Germany (until 1990 former territory of the FRG)": "Germany",
-                                           "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo"})
+                                           "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo",
+                                           "European Union - 28 countries (2013-2020)": "EU"})
 
     return df
 
@@ -117,6 +128,7 @@ def process_tourism(df):
 
     cols = df.columns
     df[cols] = df[cols].apply(pd.to_numeric, errors='ignore')
+
     return df
 
 
@@ -134,7 +146,8 @@ def process_population(df):
     df = df.rename(columns={"GEO": "Country", "Value": "Population"})
 
     df["Country"] = df["Country"].replace({"Germany (until 1990 former territory of the FRG)": "Germany",
-                                           "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo"})
+                                           "Kosovo (under United Nations Security Council Resolution 1244/99)": "Kosovo",
+                                           "European Union - 28 countries (2013-2020)": "EU"})
 
     df["Population"] = df["Population"].str.replace(' ', '')
 
@@ -157,6 +170,6 @@ total_df = pd.merge(total_df, filtered_EU_support_df, how="inner", on=["Country"
 total_df = pd.merge(total_df, filtered_tourism_df, how="inner", on=["Country"])
 
 
+# Uncomment to create dataset files
 total_df.to_csv("../merged_new_data.csv")
-
 total_df.to_json("../merged_new_data.json", orient="records")
