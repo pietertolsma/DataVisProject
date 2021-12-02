@@ -82,6 +82,7 @@ def process_EU_support(df):
 
     new_df = df[["Country", "SMART AND INCLUSIVE GROWTH", "SUSTAINABLE GROWTH: NATURAL RESOURCES",
                  "SECURITY AND CITIZENSHIP", "GLOBAL EUROPE", "ADMINISTRATION", "SPECIAL INSTRUMENTS",
+                 "TOTAL EXPENDITURE",
                  "VAT-based own resource", "GNI-based own resource", "Traditional own resources (TOR) (80%)",
                  "TOTAL own resources", "Other revenue***"]].copy()
 
