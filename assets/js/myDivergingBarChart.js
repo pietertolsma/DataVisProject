@@ -36,9 +36,13 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
     function my(selection) {
         let svg = selection.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        let x = d3.scaleLinear()
-                .range([0, width - margin.left - margin.right])
-                .domain([d3.min(data, (d) => d.value), d3.max(data, (d) => d.value)]);
+        let xPos = d3.scaleLinear()
+                .range([width/2, width - margin.left - margin.right])
+                .domain([0, d3.max(data, (d) => d.value)]);
+        
+        let xNeg = d3.scaleLinear()
+                .range([margin.left, width/2])
+                .domain([d3.min(data, (d) => d.value), 0]);
         
         let yPos = d3.scaleBand()
                 .rangeRound([(height * positiveCountries.length / data.length) - margin.top - margin.bottom, 0])
@@ -77,12 +81,16 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
                 if (input_data[d.key] >= 0) {
                     return yPos(d.key);
                 }
-                console.log(d.key)
-                return yNeg(d.key);
+                return (height * negativeCountries.length / data.length) - margin.top - margin.bottom + yNeg(d.key);
             })
             .attr("height", yPos.bandwidth())
             .attr("x", 0)
-            .attr("width", (d) => x(d.value))
+            .attr("width", (d) => {
+                if (input_data[d.key] >= 0) {
+                    return xPos(d.value)
+                }
+                return xNeg(d.value)
+            })
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut);
         
