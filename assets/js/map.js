@@ -2,7 +2,7 @@
 
 // http://bl.ocks.org/NelsonMinar/11524926
 
-function europeMap(input_data) {
+function europeMap(input_data, width=720, height=480) {
 
     function generate_dummy_data(from, to) {
         let data = {}
@@ -12,27 +12,31 @@ function europeMap(input_data) {
         return data;
     }
 
-    // Default width and height if not defined using .style("width", width) etc
-    let width = 720,
-        height = 480;
-
     let data = (input_data == undefined ? generate_dummy_data(0, 1000000) : input_data);
 
     let tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
+    let min = Number.MAX_VALUE,
+        max = -Number.MAX_VALUE;
+    
+    for (const key in input_data) {
+        min = Math.min(min, data[key]);
+        max = Math.max(max, data[key]);
+    }
+    
     function handleMouseOver(d, i) {
         d3.select(this).attr("fill-opacity", 0.6)
             .attr("test", (item) => {
-                let data = item.properties.NAME;
-                if (! EU_COUNTRIES.includes(data)) {
+                let name = item.properties.NAME;
+                if (! EU_COUNTRIES.includes(name)) {
                     return;
                 }
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", 1);
-                tooltip.html(data + "<br />")
+                tooltip.html(name + "<br />€" + numberWithCommas(Math.round(data[name]))+"M")
                     .style("left", (d.clientX) + "px")
-                    .style("top", (d.clientY) + "px");
+                    .style("top", (d.clientY + document.documentElement.scrollTop) + "px");
                 return "";
             });
     }
@@ -71,14 +75,17 @@ function europeMap(input_data) {
                         //console.log(d.properties.name + ":" + data[d.properties.name]);
                         return "#fff";
                     }
-                    let color = d3.interpolateHsl("red", "green")
+                    let color = d3.interpolateHsl("red", "white");
+                    if (data[d.properties.NAME] > 0) {
+                        color = d3.interpolateHsl("white", "#2ecc71")
+                    }
                     let point = data[d.properties.NAME];
-                    return color(point / 1000000);
+                    return color((point - min) / (max - min));
                     //return color(country_data[d.properties.name]);
                 })
                 .attr('fill-opacity', 1)
                 .attr('stroke', '#000')
-                .attr('stroke-opacity', 0);
+                .attr('stroke-opacity', 0.06);
             selection.select("g").attr("transform", 'scale(1.5)');
         });    
     }

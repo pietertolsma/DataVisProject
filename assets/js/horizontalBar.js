@@ -2,6 +2,8 @@
 // http://bl.ocks.org/NelsonMinar/11524926
 // https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
 
+// https://observablehq.com/@d3/diverging-bar-chart
+
 function horizontalBar(input_data = undefined, size = undefined) {
 
     function generate_dummy_data(from, to) {
@@ -28,7 +30,7 @@ function horizontalBar(input_data = undefined, size = undefined) {
 
     console.log(height);
 
-    let data = (typeof input_data === 'undefined' ? generate_dummy_data(0, 1000) : input_data);
+    let data = (typeof input_data === 'undefined' ? generate_dummy_data(0, 1000) : dictToPairObject(input_data));
     data = data.sort((a, b) => d3.ascending(a.value, b.value));
 
     function handleMouseOver(d, i) {
@@ -46,7 +48,7 @@ function horizontalBar(input_data = undefined, size = undefined) {
 
         let x = d3.scaleLinear()
                 .range([0, width - margin.left - margin.right])
-                .domain([0, d3.max(data, (d) => d.value)]);
+                .domain([d3.min(data, (d) => d.value), d3.max(data, (d) => d.value)]);
         
         let y = d3.scaleBand()
                 .rangeRound([height - margin.top - margin.bottom, 0])
