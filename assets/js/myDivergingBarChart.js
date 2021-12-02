@@ -12,8 +12,8 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
     let data = dictToPairObject(input_data);
     data = data.sort((a, b) => d3.ascending(a.value, b.value));
-    positiveCountries = data.filter((obj) => obj.value > 0);
-    negativeCountries = data.filter((obj) => obj.value <= 0);
+    positiveCountries = data.filter((obj) => obj.value >= 0);
+    negativeCountries = data.filter((obj) => obj.value < 0);
     mean = Object.values(input_data).reduce((acc, curr) => acc + curr) / Object.values(input_data).length;
     console.log(mean);
 
@@ -28,9 +28,9 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
     let margin = {
         top: 0,
-        right: 100,
+        right: 0,
         bottom: 0,
-        left: 120
+        left: 0
     }
 
     function my(selection) {
@@ -44,6 +44,7 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
                 .rangeRound([(height * positiveCountries.length / data.length) - margin.top - margin.bottom, 0])
                 .padding(0.1)
                 .domain(positiveCountries.map((d) => d.key));
+
         
         let yNeg = d3.scaleBand()
                 .rangeRound([(height * negativeCountries.length / data.length) - margin.top - margin.bottom, 0])
@@ -55,14 +56,36 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
 
 
         let gy = svg.append("g")
+            .attr("transform", `translate(${width/2},0)`)
             .attr("class", "y axis")
         
-        let gyPos = gy.append("g").call(yPosAxis);
+        let gyPos = gy.append("g")
+            .call(yPosAxis);
 
         let gyNeg= gy.append("g")
-            .attr("class", "y axis")
             .attr("transform", `translate(0,${(height * positiveCountries.length / data.length) - margin.top - margin.bottom})`)
             .call(yNegAxis);
+
+        let bars = svg.selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("g");
+
+        bars.append("rect")
+            .style("fill", COLORS.EU_BLUE)
+            .attr("y", (d) => {
+                if (input_data[d.key] >= 0) {
+                    return yPos(d.key);
+                }
+                console.log(d.key)
+                return yNeg(d.key);
+            })
+            .attr("height", yPos.bandwidth())
+            .attr("x", 0)
+            .attr("width", (d) => x(d.value))
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut);
+        
     }
 
     my.width = function(value) {
