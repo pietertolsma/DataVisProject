@@ -55,6 +55,40 @@ body {
     padding: 30px;
 }
 
+.introContainer {
+    color: white;
+    text-align: center;
+}
+
+.introContainer .mainTitle {
+    font-size: 8em;
+}
+
+.introContainer .mainSubTitle {
+    font-size: 4em;
+}
+
+.arrowBox{
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+.arrowDown {
+    margin: 0 auto;
+    display: inline-block;
+    width: 150px;
+    color: white;
+    text-align: center;
+}
+
+.intro {
+    background-image: url("../img/europe_from_space.jpg");
+    background-size: cover;
+    box-shadow: inset 0 0 0 50vw rgba(0,51,153,0.6);
+}
+
 .paragraph {
     color: #343a40;
     font-size: 1em;
