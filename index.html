@@ -9,7 +9,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js" integrity="sha512-COTaPOlz12cG4fSfcBsxZsjauBAyldqp+8FQUM/dZHm+ts/jR4AFoJhCqxy8K10Jrf3pojfsbq7fAPTb1XaVkg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
+    <script type="text/javascript" src="data/merged_new_data.json"></script>
     <script src="./assets/js/constants.js"></script>
+    <script src="./assets/js/dataParser.js"></script>
     <script src="./assets/js/map.js"></script>
     <script src="./assets/js/horizontalBar.js"></script>
   </head>
@@ -19,8 +21,14 @@
             <h1 class="title">Visualizing the Gap</h1>
             <p class="paragraph">The European Union consisted out of 27 member states in 2019. These member states are anything but the same! For example, within this small group of countries, over 20 (factcheck this) languages are spoken!</p>
             <div class="pageOneDrawing">
-                <svg id="firstMap"></svg>
-                <svg id="firstBarChart"></svg>
+                <div class=leftChart">
+                  <p class="chartTitle">Netto result from EU membership. (Green means positive, red means negative)</p>
+                  <svg id="firstMap"></svg>
+                </div>
+                <div class=rightChart">
+                  <p class="chartTitle">GDP per EU member state.</p>
+                  <svg id="firstBarChart"></svg>
+                </div>
             </div>
         </div>
         <div class="pageDrawing Two">
