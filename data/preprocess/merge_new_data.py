@@ -156,5 +156,5 @@ total_df = pd.merge(total_df, filtered_tourism_df, how="inner", on=["Country"])
 
 
 total_df.to_csv("../merged_new_data.csv")
-#
-# total_df.to_json("../merged_new_data.json", orient="records")
+
+total_df.to_json("../merged_new_data.json", orient="records")
