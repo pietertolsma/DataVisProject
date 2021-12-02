@@ -24,6 +24,7 @@ body {
     height: 100%;
 }
 
+
 .pageDrawing {
     cursor: pointer;
     width: 100%;
@@ -34,6 +35,11 @@ body {
     display: flex;
     flex-direction: row;
 }
+
+.Zero {
+    background:rgba(0, 20, 137,1);
+}
+
 
 .One {
     background: #f8f9fa;
@@ -51,6 +57,14 @@ body {
     font-size: 2em;
     text-align: center;
     color: #343a40;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+    padding: 30px;
+}
+
+.introductionTitle{
+    font-size: 2em;
+    text-align: center;
+    color: rgba(255, 221, 0);
     animation: 1s ease-out 0s 1 slideInFromLeft;
     padding: 30px;
 }
