@@ -1,3 +1,32 @@
+function isScrolledIntoView(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
+let state = {
+    renderedOne : false
+}
+
+async function renderSectionOne(map, bar, width, height) {
+
+    if ($(window).scrollTop() > $(".pageOneDrawing").offset().top / 2) {
+        state.renderedOne = true;
+        d3.select("#firstMap").call(map)
+        .style("width", width / 2 + "px")
+        .style("height", height + "px");
+
+        d3.select("#firstBarChart").call(bar)
+            .style("width", width / 2 + "px")
+            .style("height", height + "px");
+    }
+}
+
 $(document).ready(() => {
 
 
@@ -9,14 +38,14 @@ $(document).ready(() => {
 
         let map = europeMap(getNetContribution(), WIDTH/2, HEIGHT/2);
         let bar = myDivergingBarChart(getNetContribution(), size={"width": WIDTH / 2 , "height" : HEIGHT/1.8});
+        
+        $(window).scroll(() => {
 
-        d3.select("#firstMap").call(map)
-            .style("width", WIDTH / 2 + "px")
-            .style("height", HEIGHT + "px");
+            if (!state.renderedOne) {
+                renderSectionOne(map, bar, WIDTH, HEIGHT); 
+            }
 
-        d3.select("#firstBarChart").call(bar)
-            .style("width", WIDTH / 2 + "px")
-            .style("height", HEIGHT + "px");
+        });
     }
 
     renderCharts();

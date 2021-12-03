@@ -40,7 +40,29 @@ body {
 }
 
 .Two {
-    background: rgba(59, 59, 225, 0.24);
+    background: #f8f9fa;
+}
+
+.splitView {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    text-align: center;
+    color: white;
+}
+
+.splitView .left {
+    background: rgba(0,51,153,0.5);
+    height: 100%;
+    width: 50%;
+}
+
+.splitView .right {
+    background: rgba(0,51,153,1);
+    height: 100%;
+    width: 50%;
 }
 
 .Three {
@@ -61,11 +83,11 @@ body {
 }
 
 .introContainer .mainTitle {
-    font-size: 8em;
+    font-size: 6em;
 }
 
 .introContainer .mainSubTitle {
-    font-size: 4em;
+    font-size: 3em;
 }
 
 .arrowBox{

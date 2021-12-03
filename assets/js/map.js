@@ -89,7 +89,7 @@ function europeMap(input_data, width=720, height=480) {
                     return color((point - min) / (max - min));
                     //return color(country_data[d.properties.name]);
                 });
-            selection.select("g").attr("transform", 'scale(1.5), translate(-80, 0)');
+            selection.select("g").attr("transform", 'scale(1.2), translate(0, 0)');
         });    
     }
 
