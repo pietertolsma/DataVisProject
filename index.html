@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="./assets/style/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js" integrity="sha512-COTaPOlz12cG4fSfcBsxZsjauBAyldqp+8FQUM/dZHm+ts/jR4AFoJhCqxy8K10Jrf3pojfsbq7fAPTb1XaVkg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
     <script type="text/javascript" src="data/merged_new_data.json"></script>
     <script src="./assets/js/utility.js"></script>
     <script src="./assets/js/constants.js"></script>
@@ -16,41 +17,42 @@
     <script src="./assets/js/map.js"></script>
     <script src="./assets/js/horizontalBar.js"></script>
     <script src="./assets/js/myDivergingBarChart.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="sections">
         <div class="pageDrawing intro">
-          <div class="introContainer">
-            <h1 class="mainTitle">Follow the Euro</h1>
-            <h2 class="mainSubTitle">Visualizing how the EU spends and receives money</h2>
-            <p class="mainBottomText">Scroll down to find out.</p>
-          </div>
-          <div class="arrowBox">
-            <img class="arrowDown" src="assets/img/arrow.svg" />
-          </div>
+            <div class="introContainer">
+                <h1 class="mainTitle">Follow the Euro</h1>
+                <h2 class="mainSubTitle">Visualizing how the EU spends and receives money</h2>
+                <p class="mainBottomText">Scroll down to find out.</p>
+            </div>
+            <div class="arrowBox">
+                <img class="arrowDown" src="assets/img/arrow.svg" />
+            </div>
         </div>
         <div class="pageDrawing One">
             <h1 class="title">Difference in Contributions and Expenses to the EU</h1>
             <p class="paragraph">The European Union consisted out of 27 member states in 2019. These member states are anything but the same! For example, within this small group of countries, over 20 (factcheck this) languages are spoken!</p>
             <div class="pageOneDrawing">
-                <div class=leftChart">
-                  <p class="chartTitle">Netto result from EU membership. (Green means positive, red means negative)</p>
-                  <svg id="firstMap"></svg>
+                <div class=leftChart ">
+                  <p class="chartTitle ">Netto result from EU membership. (Green means positive, red means negative)</p>
+                  <svg id="firstMap "></svg>
                 </div>
                 <div class=rightChart">
-                  <p class="chartTitle">Net result from EU expenses and contributions.</p>
-                  <svg id="firstBarChart"></svg>
+                    <p class="chartTitle">Net result from EU expenses and contributions.</p>
+                    <svg id="firstBarChart"></svg>
                 </div>
             </div>
         </div>
         <div class="pageDrawing Two">
             <div class="splitView">
-              <div class="left">
-                <h1>EU Subsidy Categories per Country</h1>
-              </div>
-              <div class="right">
-                <h1>In</h1>
-              </div>
+                <div class="left">
+                    <h1>EU Subsidy Categories per Country</h1>
+                </div>
+                <div class="right">
+                    <h1>In</h1>
+                </div>
             </div>
         </div>
         <div class="pageDrawing Three">
@@ -62,6 +64,7 @@
         </div>
     </div>
 
-	<script src="./assets/js/index.js"></script>
-  </body>
+    <script src="./assets/js/index.js"></script>
+</body>
+
 </html>
