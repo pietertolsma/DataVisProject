@@ -37,13 +37,11 @@ $(document).ready(() => {
         let bar = myDivergingBarChart(getNetContribution(), size = { "width": WIDTH / 2, "height": HEIGHT / 1.8 });
 
         $(window).scroll(() => {
-
             if (!state.renderedOne) {
                 renderSectionOne(map, bar, WIDTH, HEIGHT);
             }
 
         });
     }
-
     renderCharts();
 });

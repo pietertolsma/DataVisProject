@@ -1,4 +1,3 @@
-
 // http://bl.ocks.org/NelsonMinar/11524926
 // https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
 
@@ -10,8 +9,8 @@ function horizontalBar(input_data = undefined, size = undefined) {
         let data = []
         for (let i = 0; i < EU_COUNTRIES.length; i++) {
             data.push({
-                "key" : [EU_COUNTRIES[i]],
-                "value" : Math.random() * (to - from) - from
+                "key": [EU_COUNTRIES[i]],
+                "value": Math.random() * (to - from) - from
             });
         }
         return data;
@@ -32,6 +31,7 @@ function horizontalBar(input_data = undefined, size = undefined) {
 
     let data = (typeof input_data === 'undefined' ? generate_dummy_data(0, 1000) : dictToPairObject(input_data));
     data = data.sort((a, b) => d3.ascending(a.value, b.value));
+    console.log(data)
 
     function handleMouseOver(d, i) {
         d3.select(this).attr("opacity", 0.4);
@@ -47,13 +47,13 @@ function horizontalBar(input_data = undefined, size = undefined) {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let x = d3.scaleLinear()
-                .range([0, width - margin.left - margin.right])
-                .domain([d3.min(data, (d) => d.value), d3.max(data, (d) => d.value)]);
-        
+            .range([0, width - margin.left - margin.right])
+            .domain([d3.min(data, (d) => d.value), d3.max(data, (d) => d.value)]);
+
         let y = d3.scaleBand()
-                .rangeRound([height - margin.top - margin.bottom, 0])
-                .padding(0.1)
-                .domain(data.map((d) => d.key));
+            .rangeRound([height - margin.top - margin.bottom, 0])
+            .padding(0.1)
+            .domain(data.map((d) => d.key));
 
         let yAxis = d3.axisLeft(y).tickSize(0);
 
@@ -81,7 +81,7 @@ function horizontalBar(input_data = undefined, size = undefined) {
             .attr("x", (d) => x(d.value) + 3)
             .style("fill", "black")
             .text((d) => Math.round(d.value));
-            
+
     }
 
     my.width = function(value) {
