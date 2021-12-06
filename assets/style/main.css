@@ -54,15 +54,38 @@ body {
 }
 
 .splitView .left {
-    background: rgba(0,51,153,0.5);
+    background: #778beb;
     height: 100%;
     width: 50%;
+    margin: 0 auto;
 }
 
 .splitView .right {
-    background: rgba(0,51,153,1);
+    background: #546de5;
     height: 100%;
     width: 50%;
+    margin: 0 auto;
+}
+
+.lightContainer {
+    background-color: #f8f9fa;
+    margin: 30px;
+    height: calc(100% - 100px);
+    padding: 20px;
+    color: black;
+}
+
+.categoryList {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    list-style: none;
+}
+
+.categoryList li {
+    font-size: 1.2em;
+    margin: 10px;
 }
 
 .Three {
