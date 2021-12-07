@@ -5,29 +5,28 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
     let height = typeof size === 'undefined' ? 480 : size.height;
 
     let data = dictToPairObject(input_data);
-    //data = data.sort((a, b) => d3.ascending(a.values, b.values));
+    data = data.sort((a) => d3.ascending(a.value));
     console.log(data);
 
     let margin = {
-            top: 0,
-            right: 90,
-            bottom: 0,
-            left: 90
-        },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        top: 0,
+        right: 90,
+        bottom: 0,
+        left: 90
+    }
 
+    // All different categories for expenditures
     var subgroups = new Array("SMART AND INCLUSIVE GROWTH", "SUSTAINABLE GROWTH: NATURAL RESOURCES",
         "SECURITY AND CITIZENSHIP", "GLOBAL EUROPE", "ADMINISTRATION", "SPECIAL INSTRUMENTS");
-    console.log(subgroups);
 
+    // All different countries
     var groups = d3.map(data, function(d) {
         return (d.key);
     })
 
 
     function my(selection) {
-        var svg = d3.select("#stackedBarChart")
+        const svg = d3.select("#stackedBarChart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -36,7 +35,7 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
                 "translate(" + margin.left + "," + margin.top + ")");
 
         // Add X axis
-        var x = d3.scaleBand()
+        const x = d3.scaleBand()
             .domain(groups)
             .range([0, width])
             .padding([0.2])
@@ -45,11 +44,24 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
             .call(d3.axisBottom(x).tickSizeOuter(0));
 
         // Add Y axis
-        var y = d3.scaleLinear()
-            .domain([0, 60])
+        const y = d3.scaleLinear()
+            .domain([0, 20000])
             .range([height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
+
+        // color palette = one color per subgroup
+        const color = d3.scaleOrdinal()
+            .domain(subgroups)
+            .range(['#e41a1c', '#377eb8', '#4daf4a', '#e41a1c', '#377eb8', '#4daf4a'])
+
+
+        //stack the data? --> stack per subgroup
+        const stackedData = d3.stack()
+            .keys(subgroups)
+            (data)
+
+
 
 
 

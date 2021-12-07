@@ -1,7 +1,7 @@
 var GDP = {};
 var netContribution = {}
-var splitted_expenditures = {} //what does it get from EU 
-var splitted_revenue = {} //what does it pay to EU
+var splitted_expenditures = [] //what does it get from EU 
+var splitted_revenue = [] //what does it pay to EU
 
 
 async function readJSON() {
@@ -12,14 +12,25 @@ async function readJSON() {
                 GDP[String(data[i].Country)] = data[i].GDP;
                 countryNetContribution = parseInt(data[i]["TOTAL own resources"]) - parseInt(data[i]["TOTAL EXPENDITURE"]) + parseInt(data[i]["ADMINISTRATION"]);
                 netContribution[data[i].Country] = isNaN(countryNetContribution) ? 0 : countryNetContribution;
-                splitted_expenditures[data[i].Country] = new Array(data[i]["SMART AND INCLUSIVE GROWTH"], data[i]["SUSTAINABLE GROWTH: NATURAL RESOURCES"],
-                    data[i]["SECURITY AND CITIZENSHIP"], data[i]["GLOBAL EUROPE"], data[i]["ADMINISTRATION"], data[i]["SPECIAL INSTRUMENTS"]);
-                splitted_revenue[data[i].Country] = new Array(data[i]["VAT-based own resource"], data[i]["GNI-based own resource"], data[i]["Traditional own resources (TOR) (80%)"], data[i]["Other revenue***"] || 0);
-
+                splitted_revenue[data[i].Country] = new Array();
+                splitted_expenditures.push({
+                    "country": data[i].Country,
+                    "SMART AND INCLUSIVE GROWTH": data[i]["SMART AND INCLUSIVE GROWTH"],
+                    "SUSTAINABLE GROWTH: NATURAL RESOURCES": data[i]["SUSTAINABLE GROWTH: NATURAL RESOURCES"],
+                    "SECURITY AND CITIZENSHIP": data[i]["SECURITY AND CITIZENSHIP"],
+                    "GLOBAL EUROPE": data[i]["GLOBAL EUROPE"],
+                    "ADMINISTRATION": data[i]["ADMINISTRATION"],
+                    "SPECIAL INSTRUMENTS": data[i]["SPECIAL INSTRUMENTS"]
+                })
+                splitted_revenue.push({
+                    "VAT-based own resource": data[i]["VAT-based own resource"],
+                    "GNI-based own resource": data[i]["GNI-based own resource"],
+                    "Traditional own resources": data[i]["Traditional own resources (TOR) (80%)"]
+                })
             }
             delete netContribution["EU"];
-            delete splitted_expenditures["EU"];
-            delete splitted_revenue["EU"];
+            splitted_expenditures.delete["EU"];
+            splitted_revenue.delete["EU"];
             resolve();
         })
     });
