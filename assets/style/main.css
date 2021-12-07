@@ -81,6 +81,8 @@ body {
     justify-content: center;
     flex-direction: column;
     list-style: none;
+   
+    
 }
 
 .categoryList li {
