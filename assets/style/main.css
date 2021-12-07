@@ -16,6 +16,7 @@
 body {
     font-family: sans-serif;
     margin: 0;
+    color: #343a40;
 }
 
 .sections {
@@ -40,13 +41,14 @@ body {
 }
 
 .Two {
-    background: #f8f9fa;
+    background-color: darkblue;
 }
 
 .splitView {
     display: flex;
     justify-content: center;
-    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
     height: 100%;
     flex-direction: row;
     text-align: center;
@@ -72,7 +74,12 @@ body {
     margin: 30px;
     height: calc(100% - 100px);
     padding: 20px;
-    color: black;
+    color: #343a40;
+}
+
+.lightContainer p {
+    text-align: left;
+    margin: 20px;
 }
 
 .categoryList {
@@ -81,15 +88,17 @@ body {
     justify-content: center;
     flex-direction: column;
     list-style: none;
+    
 }
 
 .categoryList li {
     font-size: 1em;
     margin: 3px;
+    margin-top: 20px;
 }
 
 .Three {
-    background-color: rgba(59, 223, 51, 0.13);
+    background-color: darkblue;
 }
 
 .Five {
@@ -152,16 +161,19 @@ body {
 
 .paragraph {
     color: #343a40;
-    font-size: 1em;
+    font-size: 1.35em;
     text-align: center;
     animation: 1s ease-out 0s 1 slideInFromLeft;
     padding: 0px 20px;
-    max-width: 900px;
+    max-width: 1280px;
     margin: 0 auto 30px auto;
 }
 
 .chartTitle {
     text-align: center;
+    font-size: 1.7em;
+    font-weight: 800;
+    color: #343a40;
 }
 
 .divergeChartLabel {
