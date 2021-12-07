@@ -10,7 +10,9 @@ function isScrolledIntoView(elem)
 }
 
 let state = {
-    renderedOne : false
+    renderedOne : false,
+    viewed : false
+
 }
 
 async function renderSectionOne(map, bar, width, height) {
@@ -26,6 +28,31 @@ async function renderSectionOne(map, bar, width, height) {
             .style("height", height + "px");
     }
 }
+
+async function counter(){
+    const counters = document.querySelectorAll('.countingvalue');
+    const speed = 2000;
+    viewed = true;
+
+    counters.forEach( counter => {
+    const animate = () => {
+        const value = +counter.getAttribute('akhi');
+        const data = +counter.innerText;
+        
+        const time = value / speed;
+        if(data < value) {
+            counter.innerText = Math.ceil(data + time);
+            setTimeout(animate, 1);
+            }else{
+            counter.innerText = value;
+            }
+        
+    }
+    
+    animate();
+    });
+}
+
 
 $(document).ready(() => {
 
@@ -45,7 +72,14 @@ $(document).ready(() => {
                 renderSectionOne(map, bar, WIDTH, HEIGHT); 
             }
 
+            if (!state.viewed) {
+                counter()
+            }
+
+
+
         });
+
     }
 
     renderCharts();
