@@ -21,7 +21,7 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
 
     // All different countries
     var groups = d3.map(data, function(d) {
-        return (d.key);
+        return (d.value.country);
     })
 
 
@@ -45,7 +45,7 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
 
         // Add Y axis
         const y = d3.scaleLinear()
-            .domain([0, 20000])
+            .domain([0, 100000])
             .range([height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
@@ -61,12 +61,31 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
             .keys(subgroups)
             (data)
 
-
-
-
-
-
-
+        // Show the bars
+        svg.append("g")
+            .selectAll("g")
+            // Enter in the stack data = loop key per key = group per group
+            .data(stackedData)
+            .enter().append("g")
+            .attr("fill", function(d) {
+                return color(d.key);
+            })
+            .selectAll("rect")
+            // enter a second time = loop subgroup per subgroup to add all rectangles
+            .data(function(d) {
+                return d;
+            })
+            .enter().append("rect")
+            .attr("x", function(d) {
+                return x(d.data.group);
+            })
+            .attr("y", function(d) {
+                return y(d[1]);
+            })
+            .attr("height", function(d) {
+                return y(d[0]) - y(d[1]);
+            })
+            .attr("width", x.bandwidth())
     }
 
     my.width = function(value) {

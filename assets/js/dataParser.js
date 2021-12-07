@@ -29,8 +29,8 @@ async function readJSON() {
                 })
             }
             delete netContribution["EU"];
-            splitted_expenditures.delete["EU"];
-            splitted_revenue.delete["EU"];
+            //splitted_expenditures.delete["EU"];
+            //splitted_revenue.delete["EU"];
             resolve();
         })
     });
