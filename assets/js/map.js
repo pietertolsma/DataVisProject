@@ -2,7 +2,9 @@
 
 // http://bl.ocks.org/NelsonMinar/11524926
 
-function europeMap(input_data, width=720, height=480) {
+function europeMap(state, input_data, width=720, height=480) {
+
+    state.highlightedCountry = "Netherlands";
 
     function generate_dummy_data(from, to) {
         let data = {}
@@ -12,36 +14,19 @@ function europeMap(input_data, width=720, height=480) {
         return data;
     }
 
-    let data = (input_data == undefined ? generate_dummy_data(0, 1000000) : input_data);
+    let data = generate_dummy_data(0, 1000000);
 
     let tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
     let min = Number.MAX_VALUE,
         max = -Number.MAX_VALUE;
     
-    for (const key in input_data) {
-        min = Math.min(min, data[key]);
-        max = Math.max(max, data[key]);
-    }
-    
     function handleMouseOver(d, i) {
-        d3.select(this).attr("fill-opacity", 0.6)
-            .attr("test", (item) => {
-                let name = item.properties.NAME;
-                if (! EU_COUNTRIES.includes(name)) {
-                    return;
-                }
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", 1);
-                tooltip.html(name + "<br /><br />Net. Result: €" + numberWithCommas(Math.round(data[name]))+"M")
-                    .style("left", (d.clientX) + "px")
-                    .style("top", (d.clientY + document.documentElement.scrollTop) + "px");
-                return "";
-            });
+        state.update(d.target.__data__.properties.NAME);
     }
 
     function handleMouseOut(d, i) {
+        state.update("none");
         d3.select(this).attr("fill-opacity", 1);
         tooltip.transition()
                     .duration(200)
@@ -50,6 +35,7 @@ function europeMap(input_data, width=720, height=480) {
 
 
     function my(selection) {
+
         new Promise((resolve, reject) => {
             resolve(d3.json('./../../data/raw_data/europe.geojson'));
         })
@@ -63,6 +49,7 @@ function europeMap(input_data, width=720, height=480) {
             selection.append('g').selectAll('path')
                 .data(bb.features)
                 .join('path')
+                .attr("class", "individualCountry")
                 .attr('d', geoGenerator)
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut)
@@ -103,6 +90,36 @@ function europeMap(input_data, width=720, height=480) {
         if (!arguments.length) return height;
         height = value;
         return my;
+    }
+
+    my.setData = function(new_data) {
+        data = new_data;
+        for (const key in new_data) {
+            min = Math.min(min, data[key]);
+            max = Math.max(max, data[key]);
+        }
+    } 
+
+    my.update = function() {
+        d3.selectAll(".individualCountry")
+            .attr("fill-opacity", (d, i) => {
+                return d.properties.NAME === state.highlightedCountry ? 0.6 : 1;
+            })
+            
+        // d3.select(this).attr("fill-opacity", 0.6)
+        // .attr("test", (item) => {
+        //     let name = item.properties.NAME;
+        //     if (! EU_COUNTRIES.includes(name)) {
+        //         return;
+        //     }
+        //     tooltip.transition()
+        //         .duration(200)
+        //         .style("opacity", 1);
+        //     tooltip.html(name + "<br /><br />Net. Result: €" + numberWithCommas(Math.round(data[name]))+"M")
+        //         .style("left", (d.clientX) + "px")
+        //         .style("top", (d.clientY + document.documentElement.scrollTop) + "px");
+        //     return "";
+        // });
     }
 
     return my;

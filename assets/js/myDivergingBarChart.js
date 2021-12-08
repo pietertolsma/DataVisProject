@@ -3,22 +3,21 @@
 // https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
 
 // https://observablehq.com/@d3/diverging-bar-chart
-function myDivergingBarChart(input_data = undefined, size = undefined) {
+function myDivergingBarChart(state, input_data = undefined, size = undefined) {
 
     // Default width and height if not defined using .style("width", width) etc
     let width = typeof size === 'undefined' ? 720 : size.width;
     let height = typeof size === 'undefined' ? 480 : size.height;
 
 
-    let data = dictToPairObject(input_data);
-    data = data.sort((a, b) => d3.ascending(a.value, b.value));
-    positiveCountries = data.filter((obj) => obj.value >= 0 && obj.key);
-    negativeCountries = data.filter((obj) => obj.value < 0);
-    mean = Object.values(input_data).reduce((acc, curr) => acc + curr) / Object.values(input_data).length;
-    console.log(mean);
+    let raw_data = input_data;
+    let data = undefined;
+    positiveCountries = {};
+    negativeCountries = {};
+    mean = 0;
 
     function handleMouseOver(d, i) {
-        d3.select(this).attr("opacity", 0.4);
+        state.update(d.target.__data__.key);
     }
 
     function handleMouseOut(d, i) {
@@ -33,8 +32,10 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
         left: 90
     }
 
+    let svg = undefined;
+
     function my(selection) {
-        let svg = selection.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        svg = selection.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xPos = d3.scaleLinear()
                 .range([0, width / 2 - margin.left - margin.right])
@@ -76,16 +77,16 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
             .append("g");
 
         bars.append("rect")
-            .attr("fill", (d) => input_data[d.key] >= 0 ? "#2ecc71" : "red")
+            .attr("fill", (d) => raw_data[d.key] >= 0 ? "#2ecc71" : "red")
             .attr("y", (d) => {
-                if (input_data[d.key] >= 0) {
+                if (raw_data[d.key] >= 0) {
                     return yPos(d.key);
                 }
                 return (height * positiveCountries.length / data.length) - margin.top - margin.bottom + yNeg(d.key);
             })
             .attr("height", yPos.bandwidth())
             .attr("x", (d) => {
-                if (input_data[d.key] >= 0) {
+                if (raw_data[d.key] >= 0) {
                     return (width - margin.left - margin.right) / 2;
                 }
                 
@@ -97,23 +98,22 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
                 .transition()
                 .duration(750)
                 .attr("width", (d) => {
-                if (input_data[d.key] >= 0) {
+                if (raw_data[d.key] >= 0) {
                     return xPos(d.value)
                 }
-                console.log(d + xNeg(d.value));
                 return (width / 2 - margin.left - margin.right) - xNeg(d.value);
                 });
 
         bars.append("text")
             .attr("class", "divergeChartLabel")
             .attr("y", (d) => {
-                if (input_data[d.key] >= 0) {
+                if (raw_data[d.key] >= 0) {
                     return yPos(d.key) + yPos.bandwidth() - 3;
                 }
                 return (height * positiveCountries.length / data.length) - margin.top - margin.bottom + yNeg(d.key) + yNeg.bandwidth() - 3;
             })
             .attr("x", (d) => {
-                if (input_data[d.key] >= 0) {
+                if (raw_data[d.key] >= 0) {
                     return xPos(d.value) + (width - margin.left - margin.right)/2 + 3;
                 }
                 
@@ -138,6 +138,31 @@ function myDivergingBarChart(input_data = undefined, size = undefined) {
         if (!arguments.length) return height;
         height = value;
         return my;
+    }
+
+    my.setData = function(new_data) {
+        raw_data = new_data;
+        data = dictToPairObject(new_data);
+        data = data.sort((a, b) => d3.ascending(a.value, b.value));
+        positiveCountries = data.filter((obj) => obj.value >= 0 && obj.key);
+        negativeCountries = data.filter((obj) => obj.value < 0);
+        mean = Object.values(new_data).reduce((acc, curr) => acc + curr) / Object.values(new_data).length;
+    
+    } 
+
+    my.update = function() {
+        svg.selectAll("rect")
+            .attr("opacity", (d, i) => {
+                return d.key === state.highlightedCountry ? 0.4 : 1;
+            });
+            
+        // .each((d, i) => {
+        //     if (d.key === state.highlightedCountry) {
+        //         d3.select(this).attr("opacity", 0.4);
+        //     } else {
+        //         d3.select(this).attr("opacity", 1);
+        //     }
+        // })
     }
 
     return my;
