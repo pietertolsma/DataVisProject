@@ -104,6 +104,29 @@ body {
     margin-top: 20px;
 }
 
+.countingnumber {
+    display: flex;
+    align-items: center;
+  }
+
+.eurosign {
+    font-size: 65px;
+    margin: 0 auto;
+    font-weight: bold;
+    color: green;
+}
+  
+.countingvalue {
+    font-size: 65px;
+    font-weight: bold;
+    color: green;
+}
+
+.negative {
+    color: red
+}
+
+
 .Three {
     background-color: darkblue;
 }
@@ -218,6 +241,7 @@ body {
     animation: sdb05 1.5s infinite;
     box-sizing: border-box;
 }
+
 
 /* @-webkit-keyframes sdb05 {
     0% {
