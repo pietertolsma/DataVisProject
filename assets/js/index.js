@@ -4,6 +4,7 @@ let state = {
     selectedCountry: "Netherlands",
     renderedOne : false,
     renderedFour : false,
+    viewed: false,
     update : () => {
 
     }
@@ -60,6 +61,30 @@ async function renderSectionFour(scatter, width, height) {
     }
 }
 
+async function counter(){
+    const counters = document.querySelectorAll('.countingvalue');
+    const speed = 2000;
+    viewed = true;
+
+    counters.forEach( counter => {
+    const animate = () => {
+        const value = +counter.getAttribute('akhi');
+        const data = +counter.innerText;
+        
+        const time = value / speed;
+        if(data < value) {
+            counter.innerText = Math.ceil(data + time);
+            setTimeout(animate, 1);
+            }else{
+            counter.innerText = value;
+            }
+        
+    }
+    
+    animate();
+    });
+}
+
 $(document).ready(() => {
 
 
@@ -75,7 +100,14 @@ $(document).ready(() => {
                // renderSectionFour(scatter, Math.min(1280, WIDTH), HEIGHT);
             }
 
+            if (!state.viewed) {
+                counter()
+            }
+
+
+
         });
+
     }
 
     renderCharts();
