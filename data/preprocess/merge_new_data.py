@@ -183,6 +183,9 @@ total_df = pd.merge(total_df, filtered_EU_support_df, how="inner", on=["Country"
 total_df = pd.merge(total_df, filtered_tourism_df, how="inner", on=["Country"])
 total_df = pd.merge(total_df, filtered_increaseGDP_df, how="outer", on=["Country"])
 
+def getCountries():
+    return total_df["Country"]
+
 
 # # Uncomment to create dataset files
 total_df.to_csv("../merged_new_data.csv")

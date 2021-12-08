@@ -16,13 +16,15 @@
     <script src="./assets/js/map.js"></script>
     <script src="./assets/js/horizontalBar.js"></script>
     <script src="./assets/js/myDivergingBarChart.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+  
   </head>
   <body>
     <div class="sections">
         <div class="pageDrawing intro">
           <div class="introContainer">
             <h1 class="mainTitle">Follow the Euro</h1>
-            <h2 class="mainSubTitle">Visualizing how the EU collects and spends money</h2>
+            <h2 class="mainSubTitle">How does the EU collect and spend money?</h2>
             <p class="mainBottomText">Scroll down to find out.</p>
           </div>
           <div class="arrowBox">
@@ -122,8 +124,15 @@
         </div>
 
         <div class="pageDrawing Four">
+          <h1 class="title">Gains: GDP in a non-EU reality</h1>
+          <p class="paragraph"></p>
+          <div id="my_dataviz"></div>
+      </div>
+
+        <div class="pageDrawing Four">
             <h1 class="title">Gains: Unity across the continent</h1>
-            <p class="paragraph">Up until now we have shown the EU's centralization and money redistribution in a very factual manner. To conclude wether the EU has succeeded in creating its higher purpose as mentioned in the beginning, we have to put money in a broader perspective. </p>
+            <p class="paragraph">Up until now we have shown the loss and gain from EU's centralization and money distribution in a very factual manner. Spending and collecting money is not the goal of the Union, so to analyse the real losses and benefits, we have to follow the money and see how the EU has evaluated over time.  
+               A lot of its benefits lay in non-quantitave matters like peace, stability, freedom and inclusion.  </p>
         </div>
         <div class="pageDrawing Five">
           <div class="endContainer">
@@ -139,6 +148,6 @@
     </div>
 
 	<script src="./assets/js/index.js"></script>
-  <!-- <script src="./assets/js/counter.js"></script> -->
+  <script src="./assets/js/linechart.js"></script>
   </body>
 </html>
