@@ -21,7 +21,11 @@ function myDivergingBarChart(state, input_data = undefined, size = undefined) {
     }
 
     function handleMouseOut(d, i) {
-        d3.select(this).attr("opacity", 1);
+        state.update("none");
+    }
+
+    function handleClick(d, i) {
+        state.update(d.target.__data__.key, d.target.__data__.key);
     }
 
 
@@ -77,6 +81,8 @@ function myDivergingBarChart(state, input_data = undefined, size = undefined) {
             .append("g");
 
         bars.append("rect")
+            .attr("stroke", "black")
+            .attr("stroke-width", 0)
             .attr("fill", (d) => raw_data[d.key] >= 0 ? "#2ecc71" : "red")
             .attr("y", (d) => {
                 if (raw_data[d.key] >= 0) {
@@ -94,6 +100,7 @@ function myDivergingBarChart(state, input_data = undefined, size = undefined) {
             })
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
+            .on("click", handleClick)
             .attr("width", 0)
                 .transition()
                 .duration(750)
@@ -154,6 +161,9 @@ function myDivergingBarChart(state, input_data = undefined, size = undefined) {
         svg.selectAll("rect")
             .attr("opacity", (d, i) => {
                 return d.key === state.highlightedCountry ? 0.4 : 1;
+            })
+            .style("stroke-width", (d, i) => {
+                return d.key === state.selectedCountry ? 2 : 0;
             });
             
         // .each((d, i) => {

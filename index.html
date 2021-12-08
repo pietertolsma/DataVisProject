@@ -17,6 +17,7 @@
     <script src="./assets/js/horizontalBar.js"></script>
     <script src="./assets/js/myDivergingBarChart.js"></script>
     <script src="./assets/js/myScatterPlot.js"></script>
+    <script src="./assets/js/verticalBarChart.js"></script>
   </head>
   <body>
     <div class="sections">
@@ -49,7 +50,7 @@
             <div class="splitView">
               <div class="left">
                 <div class="lightContainer">
-                <h1>Specification of EU income</h1>
+                <h1><span class="selectedCountryName"></span> EU Income</h1>
                 <div class="countingnumber">
                   <div class="eurosign">€</div>
                   <div class="countingvalue" akhi="174">0</div>
@@ -67,15 +68,13 @@
                   <li>
                     <b>Traditional Own Resources</b><br> Consists of customs duties on imports from outside the EU. Each individual country pays this directly to the EU. In the past there was also a sugar production quoate system, but this has come to an end in 2017.
                   </li>
-                  <li>
-                    <b>Other Revenue </b><br> Various items such as taxes on EU workers' salaries, interest rates on late payments and fines and contributions of non-EU countries to research programs.
-                  </li>
                 </ul>
                 </div>
               </div>
               <div class="right">
                 <div class="lightContainer">
                   <h1>In</h1>
+                  <svg id="incomeBarChart"></svg>
                 </div>
               </div>
             </div>
@@ -85,11 +84,12 @@
             <div class="right">
               <div class="lightContainer">
               <h1>Out</h1>
+              <svg id="expenseBarChart"></svg>
               </div>
             </div>
             <div class="left">
               <div class="lightContainer">
-                <h1>Expenditure of EU income</h1>
+                <h1><span class="selectedCountryName"></span> Expenses</h1>
                 <div class="countingnumber">
                   <div class="eurosign negative">€</div>
                   <div class="countingvalue negative" akhi="159">0</div>

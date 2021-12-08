@@ -15,10 +15,26 @@ let WIDTH = $(window).width(),
 
 let map = europeMap(state, undefined, WIDTH/2, HEIGHT/2);
 let bar = myDivergingBarChart(state, undefined, size={"width": WIDTH / 2 , "height" : HEIGHT/1.8});
+let incomeBar = verticalBarChart(state, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
+let expenseBar = verticalBarChart(state, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
+
+function updateCountryView() {
+    $(".selectedCountryName").text(state.selectedCountry);
+
+    incomeBar.setData(getIncomeCategories()[state.selectedCountry]);
+    expenseBar.setData(getExpenseCategories()[state.selectedCountry]);
+}
             
-state.update = function(highlight, select) {
+state.update = function(highlight = "none", select = "none") {
     state.highlightedCountry = highlight;
-    state.selectedCountry = select;
+
+    if (select !== "none" & EU_COUNTRIES.includes(select)) {
+        state.selectedCountry = select;
+        updateCountryView();
+
+        incomeBar.update();
+        expenseBar.update();
+    }
 
     bar.update();
     map.update();
@@ -48,6 +64,8 @@ async function renderSectionOne(map, bar, width, height) {
         d3.select("#firstBarChart").call(bar)
             .style("width", width / 2 + "px")
             .style("height", height + "px");
+
+        state.update();
     }
 }
 
@@ -61,36 +79,14 @@ async function renderSectionFour(scatter, width, height) {
     }
 }
 
-async function counter(){
-    const counters = document.querySelectorAll('.countingvalue');
-    const speed = 2000;
-    viewed = true;
-
-    counters.forEach( counter => {
-    const animate = () => {
-        const value = +counter.getAttribute('akhi');
-        const data = +counter.innerText;
-        
-        const time = value / speed;
-        if(data < value) {
-            counter.innerText = Math.ceil(data + time);
-            setTimeout(animate, 1);
-            }else{
-            counter.innerText = value;
-            }
-        
-    }
-    
-    animate();
-    });
-}
-
 $(document).ready(() => {
 
 
     async function renderCharts() {
 
         await readJSON();
+
+        updateCountryView();
 
         $(window).scroll(() => {
 
@@ -99,14 +95,14 @@ $(document).ready(() => {
             } else if (!state.renderedFour) {
                // renderSectionFour(scatter, Math.min(1280, WIDTH), HEIGHT);
             }
-
-            if (!state.viewed) {
-                counter()
-            }
-
-
-
         });
+
+        d3.select("#incomeBarChart").call(incomeBar)
+            .style("width", WIDTH/ 4 + "px")
+            .style("height", HEIGHT + "px");
+        d3.select("#expenseBarChart").call(expenseBar)
+            .style("width", WIDTH/ 4 + "px")
+            .style("height", HEIGHT + "px");
 
     }
 

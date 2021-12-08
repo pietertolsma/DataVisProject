@@ -29,6 +29,11 @@ function europeMap(state, input_data, width=720, height=480) {
         state.update("none");
     }
 
+    function handleClick(d, i) {
+        let name = d.target.__data__.properties.NAME;
+        state.update(name, name);
+    }
+
 
     function my(selection) {
 
@@ -49,6 +54,7 @@ function europeMap(state, input_data, width=720, height=480) {
                 .attr('d', geoGenerator)
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut)
+                .on("click", handleClick)
                 .attr('fill-opacity', 1)
                 .attr('stroke', '#000')
                 .attr('stroke-opacity', 0.09)
@@ -99,13 +105,30 @@ function europeMap(state, input_data, width=720, height=480) {
     my.update = function() {
 
         d3.selectAll(".individualCountry")
-            .attr("fill-opacity", (d, i) => {
-                if (d.properties.NAME === state.highlightedCountry) {
-                    return 0.6;
+            // .attr("fill-opacity", (d, i) => {
+            //     if (d.properties.NAME === state.highlightedCountry) {
+            //         return 0.6;
+            //     }
+
+            //     return 1;
+            // })
+            .attr("stroke-opacity", (d, i) => {
+                if (d.properties.NAME === state.selectedCountry ) {
+                    return 1;
+                } else if (d.properties.NAME === state.highlightedCountry & EU_COUNTRIES.includes(d.properties.NAME)) {
+                    return 0.5;
                 }
 
-                return 1;
+                return 0.06;
             })
+            // .attr("transform-origin", "center")
+            // .attr("transform", (d, i) => {
+            //     if (d.properties.NAME === state.highlightedCountry & EU_COUNTRIES.includes(d.properties.NAME)) {
+            //         return "scale(1.3)";
+            //     }
+
+            //     return "scale(1)";
+            // })
 
     }
 

@@ -40,6 +40,7 @@ function horizontalBar(input_data = undefined, size = undefined) {
     function handleMouseOut(d, i) {
         d3.select(this).attr("opacity", 1);
     }
+    
 
 
     function my(selection) {
