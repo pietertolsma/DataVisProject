@@ -1,31 +1,31 @@
 function myStackedBarChart(input_data = undefined, size = undefined) {
-
     // Default width and height if not defined using .style("width", width) etc
-    let width = typeof size === 'undefined' ? 720 : size.width;
-    let height = typeof size === 'undefined' ? 480 : size.height;
+    //let width = typeof size === 'undefined' ? 360 : size.width;
+    //let height = typeof size === 'undefined' ? 240 : size.height;
+    let width = 360;
+    let height = 240;
 
     let data = input_data
-    console.log(data);
 
     let margin = {
-        top: 0,
-        right: 90,
+        top: 20,
+        right: 100,
         bottom: 0,
-        left: 90
+        left: 120
     }
 
-    // All different categories for expenditures
-    var subgroups = new Array("SMART AND INCLUSIVE GROWTH", "SUSTAINABLE GROWTH: NATURAL RESOURCES",
-        "SECURITY AND CITIZENSHIP", "GLOBAL EUROPE", "ADMINISTRATION", "SPECIAL INSTRUMENTS");
+    // // All different categories for expenditures
+    // var subgroups = new Array("SMART AND INCLUSIVE GROWTH", "SUSTAINABLE GROWTH: NATURAL RESOURCES",
+    //     "SECURITY AND CITIZENSHIP", "GLOBAL EUROPE", "ADMINISTRATION", "SPECIAL INSTRUMENTS");
 
-    // All different countries
-    var groups = d3.map(data, function(d) {
-        return (d.country);
-    })
+    // // All different countries
+    // var groups = d3.map(data, function(d) {
+    //     return (d.country);
+    // })
 
 
     function my(selection) {
-        const svg = d3.select("#stackedBarChart")
+        var svg = d3.select("#stackedBarChart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -42,7 +42,6 @@ function myStackedBarChart(input_data = undefined, size = undefined) {
             });
         }));
 
-        console.log("ww")
 
         // Set x, y and colors
         var x = d3.scaleBand()
