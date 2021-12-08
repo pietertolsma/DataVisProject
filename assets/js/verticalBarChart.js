@@ -3,13 +3,11 @@
 // https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
 
 // https://observablehq.com/@d3/diverging-bar-chart
-function verticalBarChart(state, input_data = undefined, size = undefined) {
+function verticalBarChart(state, colors, input_data = undefined, size = undefined) {
 
     // Default width and height if not defined using .style("width", width) etc
     let width = typeof size === 'undefined' ? 720 : size.width;
     let height = typeof size === 'undefined' ? 480 : size.height;
-
-    let COLORS = ["#18c61a", "#9817ff", "#d31911", "#24b7f1", "#fa82ce", "#736c31", "#1263e2", "#18c199", "#ed990a", "#f2917f", "#7b637c", "#a8b311", "#a438c0", "#d00d5e", "#1e7b1d", "#05767b", "#aaa1f9", "#a5aea1", "#a75312", "#026eb8", "#94b665", "#91529e", "#caa74f", "#c90392", "#a84e5d", "#6a4cf1", "#1ac463"];
 
     function dummy_data() {
         return [
@@ -68,7 +66,7 @@ function verticalBarChart(state, input_data = undefined, size = undefined) {
     let svg = undefined;
 
     function my(selection) {
-        svg = selection.append("g").attr("transform", "translate(" + parseInt((width / 2) - 60) + "," + margin.top + ")");
+        svg = selection.append("g").attr("transform", "translate(" + parseInt(0) + "," + margin.top + ")");
 
         let bars = svg.selectAll(".bar")
             .data(data)
@@ -77,9 +75,9 @@ function verticalBarChart(state, input_data = undefined, size = undefined) {
             .attr("class", "subbar");
         
         bars.append("rect")
-            .attr("stroke", (d, i) => COLORS[i])
+            .attr("stroke", (d, i) => colors[d.key])
             .attr("stroke-width", 0)
-            .attr("fill", (d, i) => COLORS[i])
+            .attr("fill", (d, i) => colors[d.key])
             .attr("y", (d, i) => {
                 let sofar = 0;
                 for (let j = 0; j < i; j++) {
@@ -88,13 +86,26 @@ function verticalBarChart(state, input_data = undefined, size = undefined) {
                 return sofar * rheight + 4*i;
             })
             .attr("height", (d, i) => rheight * d.value)
-            .attr("width", 120)
+            .attr("width", width)
             .attr("x", (d) => {
                 return 0;
             })
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", handleClick)
+
+        bars.append("text")
+            .text((d, i) => d.value > 0.02 ? d.key : "")
+            .attr("text-anchor", "middle")
+            .attr("font-weight", 600)
+            .attr("x", (d, i) => width/2)
+            .attr("y", (d, i) => {
+                let sofar = 0;
+                for (let j = 0; j < i; j++) {
+                    sofar += data[j].value;
+                }
+                return sofar * rheight + 4*i + d.value * rheight/2 + 5;
+            })
         
     }
 
@@ -125,9 +136,9 @@ function verticalBarChart(state, input_data = undefined, size = undefined) {
             .attr("class", "subbar");
 
         bars.append("rect")
-            .attr("stroke", (d, i) => COLORS[i])
+            .attr("stroke", (d, i) => colors[d.key])
             .attr("stroke-width", 0)
-            .attr("fill", (d, i) => COLORS[i])
+            .attr("fill", (d, i) => colors[d.key])
             .attr("y", (d, i) => {
                 let sofar = 0;
                 for (let j = 0; j < i; j++) {
@@ -136,13 +147,26 @@ function verticalBarChart(state, input_data = undefined, size = undefined) {
                 return sofar * rheight + 4*i;
             })
             .attr("height", (d, i) => rheight * d.value)
-            .attr("width", 120)
+            .attr("width", width)
             .attr("x", (d) => {
                 return 0;
             })
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", handleClick)
+
+        bars.append("text")
+            .text((d, i) => d.value > 0.02 ? d.key : "")
+            .attr("text-anchor", "middle")
+            .attr("font-weight", 600)
+            .attr("x", (d, i) => width/2)
+            .attr("y", (d, i) => {
+                let sofar = 0;
+                for (let j = 0; j < i; j++) {
+                    sofar += data[j].value;
+                }
+                return sofar * rheight + 4*i + d.value * rheight/2 + 5;
+            })
     }
 
     return my;

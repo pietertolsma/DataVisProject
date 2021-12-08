@@ -7,49 +7,9 @@ var incomeCategories = {};
 
 var expenseCategories = {};
 
-// ADMINISTRATION: 5415.6
-// ​​
-// Country: "Belgium"
-// ​​
-// GDP: 478160.7
-// ​​
-// "GLOBAL EUROPE": 0
-// ​​
-// "GNI-based own resource": 3067.6
-// ​​
-// "Other revenue***": null
-// ​​
-// Population: "11455519"
-// ​​
-// "SECURITY AND CITIZENSHIP": 349.5
-// ​​
-// "SMART AND INCLUSIVE GROWTH": 2338
-// ​​
-// "SPECIAL INSTRUMENTS": 0.1
-// ​​
-// "SUSTAINABLE GROWTH: NATURAL RESOURCES": 673.8
-// ​​
-// "TOTAL EXPENDITURE": 8776.9
-// ​​
-// "TOTAL own resources": 6097
-// ​​
-// "Tourism expenditure": 16.724
-// ​​
-// "Tourism expenditure relative to GDP": 3.5
-// ​​
-// "Tourism income": 7.923
-// ​​
-// "Tourism income relative to GDP": 1.7
-// ​​
-// "Traditional own resources (TOR) (80%)": 2235.2
-// ​​
-// "VAT-based own resource": 611.9
-// ​​
-// avg_income: 24608
-// ​​
-// min_wage: 1593.81
-// ​​
-// "tourism balance": -8.801
+let totalExpense = {};
+
+let totalIncome = {};
 
 async function readJSON() {
     return new Promise((resolve, reject) => {
@@ -77,30 +37,43 @@ async function readJSON() {
 
                 expenseCategories[data[i].Country] = [
                     {
-                        "key" : "SMART AND INCLUSIVE GROWTH",
+                        "key" : "Smart and Inclusive Growth",
                         "value" : data[i]["SMART AND INCLUSIVE GROWTH"]
                     },
                     {
-                        "key" : "SUSTAINABLE GROWTH: NATURAL RESOURCES",
+                        "key" : "Sustainable Growth",
                         "value" : data[i]["SUSTAINABLE GROWTH: NATURAL RESOURCES"]
                     },
                     {
-                        "key" : "SECURITY AND CITIZENSHIP",
+                        "key" : "Security and Citizenship",
                         "value" : data[i]["SECURITY AND CITIZENSHIP"]
                     },
                     {
-                        "key" : "GLOBAL EUROPE",
+                        "key" : "Global Europe",
                         "value" : data[i]["GLOBAL EUROPE"]
                     },
+                    // {
+                    //     "key" : "Administration",
+                    //     "value" : data[i]["ADMINISTRATION"]
+                    // },
                     {
-                        "key" : "ADMINISTRATION",
-                        "value" : data[i]["ADMINISTRATION"]
-                    },
-                    {
-                        "key" : "SPECIAL INSTRUMENTS",
+                        "key" : "Special Instruments",
                         "value" : data[i]["SPECIAL INSTRUMENTS"]
                     }
                 ]
+
+                Object.entries(incomeCategories).forEach( ([k, v]) => v.forEach((d, i) => {
+                    if (totalIncome[k] === undefined) {
+                        totalIncome[k] = 0;
+                    }
+                    totalIncome[k] += d.value
+                }));
+                Object.entries(expenseCategories).forEach( ([k, v]) => v.forEach((d, i) => {
+                    if (totalExpense[k] === undefined) {
+                        totalExpense[k] = 0;
+                    }
+                    totalExpense[k] += d.value
+                }));
             }
             delete netContribution["EU"];
             resolve();

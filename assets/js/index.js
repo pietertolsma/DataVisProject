@@ -1,4 +1,19 @@
 
+let EXPENSE_COLORS = {
+    "Smart and Inclusive Growth" : "#FF9AA2",
+    "Sustainable Growth" : "#FFB7B2",
+    "Security and Citizenship" : "#FFDAC1",
+    "Global Europe" : "#E2F0CB",
+    "Administration" : "#B5EAD7",
+    "Special Instruments" : "#C7CEEA"
+}
+
+let INCOME_COLORS = {
+    "VAT-based own resource" : "#C7CEEA",
+    "GNI-based own resource" : "#B5EAD7",
+    "Traditional own resources (TOR) (80%)" : "#E2F0CB",
+}
+
 let state = {
     highlightedCountry: "none",
     selectedCountry: "Netherlands",
@@ -15,11 +30,13 @@ let WIDTH = $(window).width(),
 
 let map = europeMap(state, undefined, WIDTH/2, HEIGHT/2);
 let bar = myDivergingBarChart(state, undefined, size={"width": WIDTH / 2 , "height" : HEIGHT/1.8});
-let incomeBar = verticalBarChart(state, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
-let expenseBar = verticalBarChart(state, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
+let incomeBar = verticalBarChart(state, INCOME_COLORS, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
+let expenseBar = verticalBarChart(state, EXPENSE_COLORS, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
 
 function updateCountryView() {
     $(".selectedCountryName").text(state.selectedCountry);
+    $("#totalExpense").text(Math.round(totalExpense[state.selectedCountry] / 100) / 10);
+    $("#totalIncome").text(Math.round(totalIncome[state.selectedCountry] / 100) / 10);
 
     incomeBar.setData(getIncomeCategories()[state.selectedCountry]);
     expenseBar.setData(getExpenseCategories()[state.selectedCountry]);
