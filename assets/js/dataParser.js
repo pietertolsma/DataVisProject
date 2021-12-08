@@ -17,20 +17,20 @@ async function readJSON() {
             console.log(data);
             for (let i = 0; i < data.length; i++) {
                 GDP[String(data[i].Country)] = data[i].GDP;
-                countryNetContribution = parseInt(data[i]["TOTAL own resources"]) - parseInt(data[i]["TOTAL EXPENDITURE"]) + parseInt(data[i]["ADMINISTRATION"]);
+                countryNetContribution = parseInt(data[i]["TOTAL own resources"]) - parseInt(data[i]["TOTAL EXPENDITURE"]);// + parseInt(data[i]["ADMINISTRATION"]);
                 netContribution[data[i].Country] = isNaN(countryNetContribution) ? 0 : countryNetContribution;
 
                 incomeCategories[data[i].Country] = [
                     {
-                        "key" : "VAT-based own resource",
+                        "key" : "VAT-based",
                         "value" : data[i]["VAT-based own resource"]
                     },
                     {
-                        "key" : "GNI-based own resource",
+                        "key" : "GNI-based",
                         "value" : data[i]["GNI-based own resource"]
                     },
                     {
-                        "key" : "Traditional own resources (TOR) (80%)",
+                        "key" : "Own Resources",
                         "value" : data[i]["Traditional own resources (TOR) (80%)"]
                     }
                 ]
@@ -52,10 +52,10 @@ async function readJSON() {
                         "key" : "Global Europe",
                         "value" : data[i]["GLOBAL EUROPE"]
                     },
-                    // {
-                    //     "key" : "Administration",
-                    //     "value" : data[i]["ADMINISTRATION"]
-                    // },
+                    {
+                        "key" : "Administration",
+                        "value" : data[i]["ADMINISTRATION"]
+                    },
                     {
                         "key" : "Special Instruments",
                         "value" : data[i]["SPECIAL INSTRUMENTS"]

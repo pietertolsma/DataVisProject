@@ -3,11 +3,13 @@
 // https://bl.ocks.org/hrecht/f84012ee860cb4da66331f18d588eee3
 
 // https://observablehq.com/@d3/diverging-bar-chart
-function verticalBarChart(state, colors, input_data = undefined, size = undefined) {
+function verticalBarChart(state, category, input_data = undefined, size = undefined) {
 
     // Default width and height if not defined using .style("width", width) etc
     let width = typeof size === 'undefined' ? 720 : size.width;
     let height = typeof size === 'undefined' ? 480 : size.height;
+
+    let tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
     function dummy_data() {
         return [
@@ -43,10 +45,17 @@ function verticalBarChart(state, colors, input_data = undefined, size = undefine
     let data = normalize_data(dummy_data());
     function handleMouseOver(d, i) {
         $(this).attr("opacity", 0.6);
+
+        tooltip.style("opacity", 1)
+            .style("left", d.clientX + "px")
+            .style("top", (d.layerY) + "px")
+            .text(category[d.originalTarget.__data__.key].desc);
+        console.log(d);
     }
 
     function handleMouseOut(d, i) {
         $(this).attr("opacity", 1);
+        tooltip.style("opacity", 0);
     }
 
     function handleClick(d, i) {
@@ -72,39 +81,40 @@ function verticalBarChart(state, colors, input_data = undefined, size = undefine
             .data(data)
             .enter()
             .append("g")
-            .attr("class", "subbar");
+            .attr("class", "subbar")
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", handleClick);
         
         bars.append("rect")
-            .attr("stroke", (d, i) => colors[d.key])
+            .attr("stroke", (d, i) => category[d.key].color)
             .attr("stroke-width", 0)
-            .attr("fill", (d, i) => colors[d.key])
+            .attr("fill", (d, i) => category[d.key].color)
             .attr("y", (d, i) => {
                 let sofar = 0;
                 for (let j = 0; j < i; j++) {
                     sofar += data[j].value;
                 }
-                return sofar * rheight + 4*i;
+                return sofar * rheight;
             })
             .attr("height", (d, i) => rheight * d.value)
             .attr("width", width)
             .attr("x", (d) => {
                 return 0;
-            })
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut)
-            .on("click", handleClick)
+            });
 
         bars.append("text")
-            .text((d, i) => d.value > 0.02 ? d.key : "")
+            .text((d, i) => d.value > 0.02 ? d.key + " (" + Math.round(d.value * 1000) / 10 + "%)" : "")
             .attr("text-anchor", "middle")
             .attr("font-weight", 600)
+            .style("font-size", "0.8em")
             .attr("x", (d, i) => width/2)
             .attr("y", (d, i) => {
                 let sofar = 0;
                 for (let j = 0; j < i; j++) {
                     sofar += data[j].value;
                 }
-                return sofar * rheight + 4*i + d.value * rheight/2 + 5;
+                return sofar * rheight + d.value * rheight/2 + 5;
             })
         
     }
@@ -133,39 +143,40 @@ function verticalBarChart(state, colors, input_data = undefined, size = undefine
             .data(data)
             .enter()
             .append("g")
-            .attr("class", "subbar");
+            .attr("class", "subbar")
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", handleClick);
 
         bars.append("rect")
-            .attr("stroke", (d, i) => colors[d.key])
+            .attr("stroke", (d, i) => category[d.key].color)
             .attr("stroke-width", 0)
-            .attr("fill", (d, i) => colors[d.key])
+            .attr("fill", (d, i) => category[d.key].color)
             .attr("y", (d, i) => {
                 let sofar = 0;
                 for (let j = 0; j < i; j++) {
                     sofar += data[j].value;
                 }
-                return sofar * rheight + 4*i;
+                return sofar * rheight;
             })
             .attr("height", (d, i) => rheight * d.value)
             .attr("width", width)
             .attr("x", (d) => {
                 return 0;
-            })
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut)
-            .on("click", handleClick)
+            });
 
         bars.append("text")
-            .text((d, i) => d.value > 0.02 ? d.key : "")
+            .text((d, i) => d.value > 0.02 ? d.key + " (" + Math.round(d.value * 1000) / 10 + "%)" : "")
             .attr("text-anchor", "middle")
             .attr("font-weight", 600)
+            .style("font-size", "0.8em")
             .attr("x", (d, i) => width/2)
             .attr("y", (d, i) => {
                 let sofar = 0;
                 for (let j = 0; j < i; j++) {
                     sofar += data[j].value;
                 }
-                return sofar * rheight + 4*i + d.value * rheight/2 + 5;
+                return sofar * rheight + d.value * rheight/2 + 5;
             })
     }
 

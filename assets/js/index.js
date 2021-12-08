@@ -1,22 +1,50 @@
 
-let EXPENSE_COLORS = {
-    "Smart and Inclusive Growth" : "#FF9AA2",
-    "Sustainable Growth" : "#FFB7B2",
-    "Security and Citizenship" : "#FFDAC1",
-    "Global Europe" : "#E2F0CB",
-    "Administration" : "#B5EAD7",
-    "Special Instruments" : "#C7CEEA"
+let EXPENSE_CATEGORIES = {
+    "Smart and Inclusive Growth" : {
+        desc: "Developing the economy based on knowledge and innovation. This economy aims for high employment delivering social and territorial cohesion. ",
+        color: "#FF9AA2"
+    },
+    "Sustainable Growth" : {
+        desc: "Promoting a more resource-efficient, greener and more competitive economy. ",
+        color: "#FFB7B2"
+    },
+    "Security and Citizenship" : {
+        desc: "Focussing on security and rights of its citizens. Ranges from migration and border to control to food safety programs. ",
+        color: "#FFDAC1"
+    },
+    "Global Europe" : {
+        desc: "Putting the EU in world's perspective. It covers all foreign policy, including international development and humanitarian aid. ",
+        color: "#E2F0CB"
+    },
+    "Administration" : {
+        desc: "All expenditures to EU institutions and its staff. ",
+        color: "#FF6961"
+    },
+    "Special Instruments" : {
+        desc: "Funding for unforeseen events for example natural disasters or major world trade patterns that displace workers. ",
+        color: "#C7CEEA"
+    }
 }
 
-let INCOME_COLORS = {
-    "VAT-based own resource" : "#C7CEEA",
-    "GNI-based own resource" : "#B5EAD7",
-    "Traditional own resources (TOR) (80%)" : "#E2F0CB",
+let INCOME_CATEGORIES= {
+    "VAT-based" : {
+        desc: "VAT is a harmonised tax rate based on the total taxes a country collects. It is capped at 50% of a country's Gross National Income (GNI).",
+        color: "#B5EAD7"
+    },
+    "GNI-based" : {
+        desc: "An additional resource based on the GNI of a country. It ensures that the general budget of the Union is always initially balanced. ",
+        color: "#daeaf6"
+    },
+    "Own Resources" : {
+        desc: "Consists of customs duties on imports from outside the EU. Each individual country pays this directly to the EU. In the past there was also a sugar production quoate system, but this has come to an end in 2017. ",
+        color: "#9AC3E3"
+    },
 }
 
 let state = {
     highlightedCountry: "none",
     selectedCountry: "Netherlands",
+    selectedCountry2: "Greece",
     renderedOne : false,
     renderedFour : false,
     viewed: false,
@@ -30,8 +58,8 @@ let WIDTH = $(window).width(),
 
 let map = europeMap(state, undefined, WIDTH/2, HEIGHT/2);
 let bar = myDivergingBarChart(state, undefined, size={"width": WIDTH / 2 , "height" : HEIGHT/1.8});
-let incomeBar = verticalBarChart(state, INCOME_COLORS, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
-let expenseBar = verticalBarChart(state, EXPENSE_COLORS, undefined, size={"width": WIDTH / 4 , "height" : HEIGHT });
+let incomeBar = verticalBarChart(state, INCOME_CATEGORIES, undefined, size={"width": $("#incomeBarChart").parent().width() , "height" : HEIGHT });
+let expenseBar = verticalBarChart(state, EXPENSE_CATEGORIES, undefined, size={"width": $("#expenseBarChart").parent().width() , "height" : HEIGHT });
 
 function updateCountryView() {
     $(".selectedCountryName").text(state.selectedCountry);
@@ -115,10 +143,10 @@ $(document).ready(() => {
         });
 
         d3.select("#incomeBarChart").call(incomeBar)
-            .style("width", WIDTH/ 4 + "px")
+            .style("width", $("#incomeBarChart").parent().width() + "px")
             .style("height", HEIGHT + "px");
         d3.select("#expenseBarChart").call(expenseBar)
-            .style("width", WIDTH/ 4 + "px")
+            .style("width", $("#expenseBarChart").parent().width() + "px")
             .style("height", HEIGHT + "px");
 
     }

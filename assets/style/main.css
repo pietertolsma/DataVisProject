@@ -206,6 +206,30 @@ body {
     color: #343a40;
 }
 
+.vertBarChart {
+    width: 50%;
+    display: inline-block;
+}
+
+.balanceContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 0 30px;
+}
+
+.balanceContainer h2 {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.balanceContainer div {
+    width: 50%;
+    display: inline-block;
+    padding: 4px;
+}
+
 .divergeChartLabel {
     font-size: .64em;
 }
@@ -220,6 +244,8 @@ body {
     pointer-events: none;
     font-size: 1em;
     color: white;
+    max-width: 500px;
+    z-index: 100;
 }
 
 #section05 a {
