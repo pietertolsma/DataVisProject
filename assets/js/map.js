@@ -27,10 +27,6 @@ function europeMap(state, input_data, width=720, height=480) {
 
     function handleMouseOut(d, i) {
         state.update("none");
-        d3.select(this).attr("fill-opacity", 1);
-        tooltip.transition()
-                    .duration(200)
-                    .style("opacity", 0);
     }
 
 
@@ -101,25 +97,16 @@ function europeMap(state, input_data, width=720, height=480) {
     } 
 
     my.update = function() {
+
         d3.selectAll(".individualCountry")
             .attr("fill-opacity", (d, i) => {
-                return d.properties.NAME === state.highlightedCountry ? 0.6 : 1;
+                if (d.properties.NAME === state.highlightedCountry) {
+                    return 0.6;
+                }
+
+                return 1;
             })
-            
-        // d3.select(this).attr("fill-opacity", 0.6)
-        // .attr("test", (item) => {
-        //     let name = item.properties.NAME;
-        //     if (! EU_COUNTRIES.includes(name)) {
-        //         return;
-        //     }
-        //     tooltip.transition()
-        //         .duration(200)
-        //         .style("opacity", 1);
-        //     tooltip.html(name + "<br /><br />Net. Result: €" + numberWithCommas(Math.round(data[name]))+"M")
-        //         .style("left", (d.clientX) + "px")
-        //         .style("top", (d.clientY + document.documentElement.scrollTop) + "px");
-        //     return "";
-        // });
+
     }
 
     return my;
