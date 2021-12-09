@@ -32,9 +32,18 @@
           </div>
         </div>
         <div class="pageDrawing One">
+            <div id="myModal" class="modal">
+
+              <!-- Modal content -->
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Select two countries by clicking around on the map. After doing so, scroll down to see the full comparison!</p>
+              </div>
+            
+            </div>
             <h1 class="title">Revenue and Expenses of the EU budget</h1>
             <p class="paragraph">Since the foundation of the European Union, its aim has always been to create a peaceful, efficient and economically stable unity of countries. To achieve this higher purpose a joint budget was set up and each EU state pays its contribution to this account. This huge piggy pank is then smashed and redistributed aiming for the best progress of the continent as a whole. We aim to visualise the absolute contributions and expenses to the EU budget and intent to analyse in what ways the redistribution of state money makes the EU flourish. </p>
-
+            <p class="paragraph">After selecting two countries by clicking on the map, scroll down to see a comparison between the two.</p>
             <div class="pageOneDrawing">
                 <div class=leftChart">
                   <p class="chartTitle">Netto contribution amongst the continent</p>
@@ -53,7 +62,7 @@
             <div class="splitView">
               <div class="left">
                 <div class="lightContainer">
-                <h1>EU Receivings</h1>
+                <h1>EU Budget In</h1>
                 <!-- <div class="countingnumber">
                   <div class="eurosign">€</div>
                   <div class="countingvalue" akhi="174"><span id="totalIncome"></span></div>
@@ -63,29 +72,29 @@
                   <div class="inContainer">
                     <h2><span class="selectedCountryName"></span></h2>
                     <svg class="vertBarChart" id="incomeBarChart"></svg>
-                    <h3>€<span id="incomeSum1"></span> B</h3>
+                    <h3 style="color:green;">€<span id="incomeSum1"></span> B</h3>
                   </div>
                   <div class="outContainer">
                     <h2><span class="selectedCountryName2"></span></h2>
                       <svg class="vertBarChart" id="incomeBarChart2"></svg>
-                      <h3>€<span id="incomeSum2"></span> B</h3>
+                      <h3 style="color:green;">€<span id="incomeSum2"></span> B</h3>
                   </div>
                 </div>
                 </div>
               </div>
               <div class="right">
                 <div class="lightContainer">
-                  <h1>EU Expenses</h1>
+                  <h1>EU Budget Out</h1>
                   <div class="balanceContainer">
                     <div class="inContainer">
                       <h2><span class="selectedCountryName"></span></h2>
                       <svg class="vertBarChart" id="expenseBarChart"></svg>
-                      <h3>€<span id="expenseSum1"></span> B</h3>
+                      <h3 style="color:red;">€<span id="expenseSum1"></span> B</h3>
                     </div>
                     <div class="outContainer">
                       <h2><span class="selectedCountryName2"></span></h2>
                       <svg class="vertBarChart" id="expenseBarChart2"></svg>
-                      <h3>€<span id="expenseSum2"></span> B</h3>
+                      <h3 style="color:red;">€<span id="expenseSum2"></span> B</h3>
                     </div>
                   </div>
                 </div>
@@ -93,21 +102,12 @@
               </div>
             </div>
         </div>
-
-        <div class="pageDrawing Four">
-            <h1 class="title">Gains: Unity across the continent</h1>
-            <p class="paragraph">Up until now we have showed the centralization and redistribution of the European Union in a very factual manner. to conclude wether the EU has succeeded in creating its higher purpose as mentioned in the beginning, we have to put money in a broader perspective. </p>
-            <svg class="scatterPlot" id="myScatterPlot"></svg>
-          </div>
         <div class="pageDrawing Five">
           <div class="endContainer">
             <h1 class="title">Ending Remark..</h1>
-            <p class="paragraph">There are also a lot of gains of entering the European Union</p>
+            <p class="paragraph">The dataset that was used for this site can be found <a href="https://ec.europa.eu/info/strategy/eu-budget/long-term-eu-budget/2014-2020/spending-and-revenue_en">here</a>.</p>
             <p>This site was created by Joost Gobbels, Niek Brouwer and Pieter Tolsma for the course "Data Visualization" at Delft University of Technology.</p>
           </div>
-        </div>
-        <div class="pageDrawing Six">
-          <h1 class="title"> References</h1>
         </div>
       </div>
     </div>

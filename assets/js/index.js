@@ -121,6 +121,9 @@ function isScrolledIntoView(elem)
 async function renderSectionOne(map, bar, width, height) {
 
     if ($(window).scrollTop() > $(".pageOneDrawing").offset().top / 2) {
+
+        $("#myModal").css("display", "block");
+
         state.renderedOne = true;
         map.setData(getNetContribution());
         bar.setData(getNetContribution());
@@ -138,6 +141,7 @@ async function renderSectionOne(map, bar, width, height) {
 
 async function renderSectionFour(scatter, width, height) {
     if ($(window).scrollTop() > $(".pageOneDrawing").offset().top * 6/ 2) { 
+        
         // state.renderedFour = true;
         // d3.select("#myScatterPlot").call(scatter)
         // .style("width", Math.min(1280, width) + "px")
@@ -152,6 +156,14 @@ $(document).ready(() => {
         state.absoluteBudget = !state.absoluteBudget;
         $("#toggleText").text(state.absoluteBudget ? "relative" : "absolute");
         state.update("none", state.selectedCountry);
+    })
+
+    $(window).on("click", () => {
+        $("#myModal").css("display", "none");
+    })
+
+    $(".close").on("click", () => {
+        $("#myModal").css("display", "none");
     })
 
 
