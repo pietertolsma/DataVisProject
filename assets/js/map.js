@@ -74,8 +74,12 @@ function europeMap(state, input_data, width=720, height=480) {
                     if (data[d.properties.NAME] > 0) {
                         color = d3.interpolateHsl("white", "#2ecc71")
                     }
+
+                    const expScale = d3.scalePow()
+                        .exponent(1.5)
+                        .domain([min, max]);
                     let point = data[d.properties.NAME];
-                    return color((point - min) / (max - min));
+                    return color(expScale(point));
                     //return color(country_data[d.properties.name]);
                 });
             selection.select("g").attr("transform", 'scale(1.2), translate(0, 0)');
