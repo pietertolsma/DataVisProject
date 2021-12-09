@@ -50,7 +50,7 @@
             <div class="splitView">
               <div class="left">
                 <div class="lightContainer">
-                <h1><span class="selectedCountryName"></span> EU Income</h1>
+                <h1>EU Receivings</h1>
                 <!-- <div class="countingnumber">
                   <div class="eurosign">€</div>
                   <div class="countingvalue" akhi="174"><span id="totalIncome"></span></div>
@@ -58,65 +58,37 @@
                 </div> -->
                 <div class="balanceContainer">
                   <div class="inContainer">
-                    <h2>In</h2>
+                    <h2><span class="selectedCountryName"></span></h2>
                     <svg class="vertBarChart" id="incomeBarChart"></svg>
+                    <h3>€<span id="incomeSum1"></span> B</h3>
                   </div>
                   <div class="outContainer">
-                    <h2>Out</h2>
-                    <svg class="vertBarChart" id="expenseBarChart"></svg>
+                    <h2><span class="selectedCountryName2"></span></h2>
+                      <svg class="vertBarChart" id="incomeBarChart2"></svg>
+                      <h3>€<span id="incomeSum2"></span> B</h3>
                   </div>
                 </div>
                 </div>
               </div>
               <div class="right">
                 <div class="lightContainer">
-                  <h1>In</h1>
-                  <svg id="incomeBarChart"></svg>
+                  <h1>EU Expenses</h1>
+                  <div class="balanceContainer">
+                    <div class="inContainer">
+                      <h2><span class="selectedCountryName"></span></h2>
+                      <svg class="vertBarChart" id="expenseBarChart"></svg>
+                      <h3>€<span id="expenseSum1"></span> B</h3>
+                    </div>
+                    <div class="outContainer">
+                      <h2><span class="selectedCountryName2"></span></h2>
+                      <svg class="vertBarChart" id="expenseBarChart2"></svg>
+                      <h3>€<span id="expenseSum2"></span> B</h3>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-        </div>
-        <div class="pageDrawing Three">
-          <div class="splitView">
-            <div class="right">
-              <div class="lightContainer">
-              <h1>Out</h1>
-              <svg id="expenseBarChart"></svg>
               </div>
             </div>
-            <div class="left">
-              <div class="lightContainer">
-                <h1><span class="selectedCountryName"></span> Expenses</h1>
-                <div class="countingnumber">
-                  <div class="eurosign negative">€</div>
-                  <div class="countingvalue negative" akhi="159"><span id="totalExpense"></span></div>
-                  <div class="eurosign negative">billion</div>
-                </div>
-                <p>In 2019, the European Union assigned €159.095.500.000 to its member states. There are 6 main categories in which this money is invested per country.</p>
-                <ul class="categoryList">
-                  <li>
-                    <b>Smart and Inclusive Growth</b><br> Developing the economy based on knowledge and innovation. This economy aims for high employment delivering social and territorial cohesion.
-                  </li>
-                  <li>
-                    <b>Sustainable Growth: Natural Resources</b><br> Promoting a more resource-efficient, greener and more competitive economy.
-                  </li>
-                  <li>
-                    <b>Security and Citizenship</b><br> Focussing on security and rights of its citizens. Ranges from migration and border to control to food safety programs.
-                  </li>
-                  <li>
-                    <b>Global Europe</b><br> Putting the EU in world's perspective. It covers all foreign policy, including international development and humanitarian aid.
-                  </li>
-                  <li>
-                    <b>Administration</b><br> All expenditures to EU institutions and its staff.
-                  </li>
-                  <li>
-                    <b>Special Instruments</b><br> Funding for unforeseen events for example natural disasters or major world trade patterns that displace workers.
-                  </li>
-                </ul>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="pageDrawing Four">

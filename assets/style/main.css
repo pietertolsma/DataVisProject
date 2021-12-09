@@ -217,6 +217,7 @@ body {
     padding: 0 30px;
 }
 
+
 .balanceContainer h2 {
     font-size: 1.2em;
     text-align: center;
@@ -227,7 +228,6 @@ body {
 .balanceContainer div {
     width: 50%;
     display: inline-block;
-    padding: 4px;
 }
 
 .divergeChartLabel {

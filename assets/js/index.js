@@ -45,9 +45,11 @@ let state = {
     highlightedCountry: "none",
     selectedCountry: "Netherlands",
     selectedCountry2: "Greece",
+    absoluteBudget: true,
     renderedOne : false,
     renderedFour : false,
     viewed: false,
+    nextSelectCount: 1,
     update : () => {
 
     }
@@ -58,27 +60,47 @@ let WIDTH = $(window).width(),
 
 let map = europeMap(state, undefined, WIDTH/2, HEIGHT/2);
 let bar = myDivergingBarChart(state, undefined, size={"width": WIDTH / 2 , "height" : HEIGHT/1.8});
-let incomeBar = verticalBarChart(state, INCOME_CATEGORIES, undefined, size={"width": $("#incomeBarChart").parent().width() , "height" : HEIGHT });
-let expenseBar = verticalBarChart(state, EXPENSE_CATEGORIES, undefined, size={"width": $("#expenseBarChart").parent().width() , "height" : HEIGHT });
+let incomeBar = verticalBarChart(state, INCOME_CATEGORIES, undefined, size={"width": $("#incomeBarChart").parent().width() , "height" : HEIGHT - 100});
+let expenseBar = verticalBarChart(state, EXPENSE_CATEGORIES, undefined, size={"width": $("#expenseBarChart").parent().width() , "height" : HEIGHT - 100});
+let incomeBar2 = verticalBarChart(state, INCOME_CATEGORIES, undefined, size={"width": $("#incomeBarChart").parent().width() , "height" : HEIGHT - 100 });
+let expenseBar2 = verticalBarChart(state, EXPENSE_CATEGORIES, undefined, size={"width": $("#expenseBarChart").parent().width() , "height" : HEIGHT - 100 });
 
 function updateCountryView() {
     $(".selectedCountryName").text(state.selectedCountry);
+    $(".selectedCountryName2").text(state.selectedCountry2);
     $("#totalExpense").text(Math.round(totalExpense[state.selectedCountry] / 100) / 10);
     $("#totalIncome").text(Math.round(totalIncome[state.selectedCountry] / 100) / 10);
+    $("#incomeSum1").text(Math.round(totalIncome[state.selectedCountry] / 100) / 10);
+    $("#incomeSum2").text(Math.round(totalIncome[state.selectedCountry2] / 100) / 10);
+    $("#expenseSum1").text(Math.round(totalExpense[state.selectedCountry] / 100) / 10);
+    $("#expenseSum2").text(Math.round(totalExpense[state.selectedCountry2] / 100) / 10);
 
-    incomeBar.setData(getIncomeCategories()[state.selectedCountry]);
-    expenseBar.setData(getExpenseCategories()[state.selectedCountry]);
+    let maxExpense = Math.max(totalExpense[state.selectedCountry], totalExpense[state.selectedCountry2]);
+    let maxIncome = Math.max(totalIncome[state.selectedCountry], totalIncome[state.selectedCountry2]);
+
+    incomeBar.setData(getIncomeCategories()[state.selectedCountry], totalIncome[state.selectedCountry], maxIncome );
+    expenseBar.setData(getExpenseCategories()[state.selectedCountry], totalExpense[state.selectedCountry], maxExpense);
+    incomeBar2.setData(getIncomeCategories()[state.selectedCountry2], totalIncome[state.selectedCountry2], maxIncome);
+    expenseBar2.setData(getExpenseCategories()[state.selectedCountry2], totalExpense[state.selectedCountry2], maxExpense);
 }
             
 state.update = function(highlight = "none", select = "none") {
     state.highlightedCountry = highlight;
 
     if (select !== "none" & EU_COUNTRIES.includes(select)) {
-        state.selectedCountry = select;
+        if (state.nextSelectCount == 0 & state.selectedCountry2 !== select) {
+            state.selectedCountry = select;
+            state.nextSelectCount = 1;
+        } else if (state.selectedCountry !== select) {
+            state.selectedCountry2 = select;
+            state.nextSelectCount = 0;
+        }
         updateCountryView();
 
         incomeBar.update();
         expenseBar.update();
+        incomeBar2.update();
+        expenseBar2.update();
     }
 
     bar.update();
@@ -144,10 +166,17 @@ $(document).ready(() => {
 
         d3.select("#incomeBarChart").call(incomeBar)
             .style("width", $("#incomeBarChart").parent().width() + "px")
-            .style("height", HEIGHT + "px");
+            .style("height", HEIGHT - 300 + "px");
         d3.select("#expenseBarChart").call(expenseBar)
             .style("width", $("#expenseBarChart").parent().width() + "px")
-            .style("height", HEIGHT + "px");
+            .style("height", HEIGHT - 300 + "px");
+
+        d3.select("#incomeBarChart2").call(incomeBar2)
+            .style("width", $("#incomeBarChart2").parent().width() + "px")
+            .style("height", HEIGHT - 300 + "px");
+        d3.select("#expenseBarChart2").call(expenseBar2)
+            .style("width", $("#expenseBarChart2").parent().width() + "px")
+            .style("height", HEIGHT - 300 + "px");
 
     }
 

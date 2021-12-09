@@ -113,7 +113,7 @@ function europeMap(state, input_data, width=720, height=480) {
             //     return 1;
             // })
             .attr("stroke-opacity", (d, i) => {
-                if (d.properties.NAME === state.selectedCountry ) {
+                if (d.properties.NAME === state.selectedCountry | d.properties.NAME === state.selectedCountry2 ) {
                     return 1;
                 } else if (d.properties.NAME === state.highlightedCountry & EU_COUNTRIES.includes(d.properties.NAME)) {
                     return 0.5;

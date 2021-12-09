@@ -36,11 +36,14 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
         let sum = 0;
         dat.forEach((d, i) => sum += d.value);
         dat.forEach((d, i) => dat[i].value = d.value / sum);
-        dat.sort((a, b) => d3.ascending(a.value, b.value))
+        //dat.sort((a, b) => d3.ascending(a.value, b.value))
         return dat;
     }
 
     let raw_data = input_data;
+
+    let mySum = 1,
+        myMaxSum = 1;
 
     let data = normalize_data(dummy_data());
     function handleMouseOver(d, i) {
@@ -74,48 +77,11 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
 
     let svg = undefined;
 
-    function my(selection) {
-        svg = selection.append("g").attr("transform", "translate(" + parseInt(0) + "," + margin.top + ")");
+    let selection = undefined;
 
-        let bars = svg.selectAll(".bar")
-            .data(data)
-            .enter()
-            .append("g")
-            .attr("class", "subbar")
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut)
-            .on("click", handleClick);
-        
-        bars.append("rect")
-            .attr("stroke", (d, i) => category[d.key].color)
-            .attr("stroke-width", 0)
-            .attr("fill", (d, i) => category[d.key].color)
-            .attr("y", (d, i) => {
-                let sofar = 0;
-                for (let j = 0; j < i; j++) {
-                    sofar += data[j].value;
-                }
-                return sofar * rheight;
-            })
-            .attr("height", (d, i) => rheight * d.value)
-            .attr("width", width)
-            .attr("x", (d) => {
-                return 0;
-            });
-
-        bars.append("text")
-            .text((d, i) => d.value > 0.02 ? d.key + " (" + Math.round(d.value * 1000) / 10 + "%)" : "")
-            .attr("text-anchor", "middle")
-            .attr("font-weight", 600)
-            .style("font-size", "0.8em")
-            .attr("x", (d, i) => width/2)
-            .attr("y", (d, i) => {
-                let sofar = 0;
-                for (let j = 0; j < i; j++) {
-                    sofar += data[j].value;
-                }
-                return sofar * rheight + d.value * rheight/2 + 5;
-            })
+    function my(select) {
+        selection = select;
+        my.update();
         
     }
 
@@ -131,13 +97,22 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
         return my;
     }
 
-    my.setData = function(new_data) {
+    my.setData = function(new_data, thisSum, maxSum) {
         raw_data = new_data;
+        mySum = thisSum;
+        myMaxSum = maxSum;
+        rheight = (height - margin.top - margin.bottom)
+        if (state.absoluteBudget) {
+            rheight = rheight * thisSum / maxSum;
+        }
+
         data = normalize_data(new_data);
     } 
 
     my.update = function() {
-        svg.selectAll(".subbar").remove();
+        let offsetY = (height - margin.top - margin.bottom) - rheight;
+        selection.selectAll("g").remove();
+        svg = selection.append("g").attr("class", "mainG").attr("transform", "translate(" + parseInt(0) + "," + margin.top + offsetY + ")");
 
         let bars = svg.selectAll(".bar")
             .data(data)
@@ -147,7 +122,7 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", handleClick);
-
+        
         bars.append("rect")
             .attr("stroke", (d, i) => category[d.key].color)
             .attr("stroke-width", 0)
