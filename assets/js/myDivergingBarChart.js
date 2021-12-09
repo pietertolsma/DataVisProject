@@ -163,7 +163,7 @@ function myDivergingBarChart(state, input_data = undefined, size = undefined) {
                 return d.key === state.highlightedCountry ? 0.4 : 1;
             })
             .style("stroke-width", (d, i) => {
-                return d.key === state.selectedCountry ? 2 : 0;
+                return (d.key === state.selectedCountry | d.key === state.selectedCountry2) ? 2 : 0;
             });
             
         // .each((d, i) => {

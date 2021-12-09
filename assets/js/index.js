@@ -148,6 +148,12 @@ async function renderSectionFour(scatter, width, height) {
 
 $(document).ready(() => {
 
+    $("#toggleAbsolute").on("click", () => {
+        state.absoluteBudget = !state.absoluteBudget;
+        $("#toggleText").text(state.absoluteBudget ? "relative" : "absolute");
+        state.update("none", state.selectedCountry);
+    })
+
 
     async function renderCharts() {
 

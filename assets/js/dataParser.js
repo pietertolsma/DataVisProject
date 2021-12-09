@@ -62,18 +62,19 @@ async function readJSON() {
                     }
                 ]
 
-                Object.entries(incomeCategories).forEach( ([k, v]) => v.forEach((d, i) => {
-                    if (totalIncome[k] === undefined) {
-                        totalIncome[k] = 0;
-                    }
-                    totalIncome[k] += d.value
-                }));
-                Object.entries(expenseCategories).forEach( ([k, v]) => v.forEach((d, i) => {
-                    if (totalExpense[k] === undefined) {
-                        totalExpense[k] = 0;
-                    }
-                    totalExpense[k] += d.value
-                }));
+                for (const [countryName, value] of Object.entries(incomeCategories)) {
+                    let cats = value;
+                    totalIncome[countryName] = 0;
+
+                    cats.forEach((d) => totalIncome[countryName] += d.value);
+                }
+
+                for (const [countryName, value] of Object.entries(expenseCategories)) {
+                    let cats = value;
+                    totalExpense[countryName] = 0;
+
+                    cats.forEach((d) => totalExpense[countryName] += d.value);
+                }
             }
             delete netContribution["EU"];
             resolve();

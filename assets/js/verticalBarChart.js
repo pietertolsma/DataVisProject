@@ -49,11 +49,21 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
     function handleMouseOver(d, i) {
         $(this).attr("opacity", 0.6);
 
+        let amount = 0;
+        raw_data.forEach((el, i) => amount = d.originalTarget.__data__.key === el.key ? el.value : amount);
+
+        tooltip.selectAll("p").remove();
+
         tooltip.style("opacity", 1)
             .style("left", d.clientX + "px")
             .style("top", (d.layerY) + "px")
-            .text(category[d.originalTarget.__data__.key].desc);
-        console.log(d);
+            .append("p")
+                .text("€" + amount + " M" + " (" + Math.round(d.originalTarget.__data__.value * 1000) / 10 + "%)")
+        tooltip.append("p")
+                .text(category[d.originalTarget.__data__.key].desc);
+            // .text(
+            //     "<tspan>" + amount + "</tspan>" + 
+            //     "<tspan>" + category[d.originalTarget.__data__.key].desc) + "</tspan>";
     }
 
     function handleMouseOut(d, i) {
@@ -98,7 +108,7 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
     }
 
     my.setData = function(new_data, thisSum, maxSum) {
-        raw_data = new_data;
+        raw_data = JSON.parse(JSON.stringify(new_data));
         mySum = thisSum;
         myMaxSum = maxSum;
         rheight = (height - margin.top - margin.bottom)
@@ -106,7 +116,7 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
             rheight = rheight * thisSum / maxSum;
         }
 
-        data = normalize_data(new_data);
+        data = normalize_data(JSON.parse(JSON.stringify(raw_data)));
     } 
 
     my.update = function() {
@@ -141,7 +151,13 @@ function verticalBarChart(state, category, input_data = undefined, size = undefi
             });
 
         bars.append("text")
-            .text((d, i) => d.value > 0.02 ? d.key + " (" + Math.round(d.value * 1000) / 10 + "%)" : "")
+            .text((d, i) => {
+                let amount = 0;
+                raw_data.forEach((el, i) => amount = d.key === el.key ? el.value : amount);
+                let barValue = state.absoluteBudget ? " (" + Math.round(amount) + "M)" : " (" + Math.round(d.value * 1000) / 10 + "%)";
+        
+                return d.value > 0.02 ? d.key + barValue : ""
+            })
             .attr("text-anchor", "middle")
             .attr("font-weight", 600)
             .style("font-size", "0.8em")

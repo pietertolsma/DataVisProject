@@ -225,6 +225,35 @@ body {
     margin: 0;
 }
 
+.buttonContainer {
+    position: absolute;
+    top: 200%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.buttonContainer button {
+    display: block;
+    margin: 70px auto;
+    padding: 0.3em 1.2em;
+    border-radius: 20px;
+    box-sizing: border-box;
+    border-style: hidden;
+    text-decoration: none;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 400;
+    font-size: 1.6em;
+    color: #FFFFFF;
+    background-color: #4eb5f1;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.buttonContainer button:hover {
+    background-color:#4095c6;
+}
+
 .balanceContainer div {
     width: 50%;
     display: inline-block;
