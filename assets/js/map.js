@@ -38,7 +38,7 @@ function europeMap(state, input_data, width=720, height=480) {
     function my(selection) {
 
         new Promise((resolve, reject) => {
-            resolve(d3.json('../../data/raw_data/europe.geojson'));
+            resolve(d3.json('https://pietertolsma.github.io/DataVisProject/data/raw_data/europe.geojson'));
         })
         .then((bb) => {
             let projection = d3.geoEqualEarth();
