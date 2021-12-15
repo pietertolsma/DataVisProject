@@ -22,11 +22,11 @@ async function readJSON() {
 
                 incomeCategories[data[i].Country] = [
                     {
-                        "key" : "VAT-based",
+                        "key" : "Tax-Based",
                         "value" : data[i]["VAT-based own resource"]
                     },
                     {
-                        "key" : "GNI-based",
+                        "key" : "Economy-Based",
                         "value" : data[i]["GNI-based own resource"]
                     },
                     {

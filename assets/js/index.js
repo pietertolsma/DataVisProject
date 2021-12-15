@@ -27,16 +27,16 @@ let EXPENSE_CATEGORIES = {
 }
 
 let INCOME_CATEGORIES= {
-    "VAT-based" : {
-        desc: "VAT is a harmonised tax rate based on the total taxes a country collects. It is capped at 50% of a country's Gross National Income (GNI).",
+    "Tax-Based" : {
+        desc: "Value Added Tax - VAT is a harmonised tax rate based on the total taxes a country collects. It is capped at 50% of a country's Gross National Income (GNI).",
         color: "#B5EAD7"
     },
-    "GNI-based" : {
-        desc: "An additional resource based on the GNI of a country. It ensures that the general budget of the Union is always initially balanced. ",
+    "Economy-Based" : {
+        desc: "Gross National Income - An additional resource based on the GNI of a country. It ensures that the general budget of the Union is always initially balanced. ",
         color: "#daeaf6"
     },
     "Own Resources" : {
-        desc: "Consists of customs duties on imports from outside the EU. Each individual country pays this directly to the EU. In the past there was also a sugar production quoate system, but this has come to an end in 2017. ",
+        desc: "Consists of customs duties on imports from outside the EU. Each individual country pays this directly to the EU.",
         color: "#9AC3E3"
     },
 }
